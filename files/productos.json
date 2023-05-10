@@ -1,0 +1,20 @@
+[
+	{
+		"title": "Harina",
+		"description": "tipo 0000",
+		"price": "300",
+		"thumbnail": "img/harina.png",
+		"code": "2324H",
+		"stock": "50",
+		"id": 1
+	},
+	{
+		"title": "Pimienta",
+		"description": "Negra",
+		"price": "200",
+		"thumbnail": "img/pimienta.png",
+		"code": "24564A",
+		"stock": "30",
+		"id": 2
+	}
+]

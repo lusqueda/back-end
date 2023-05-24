@@ -116,41 +116,7 @@ export default class CartManager {
         ((id).toString() != '-1') ? next() : res.send('No existe el carrito') 
     }
 
-
 }
-
-/*const manager =  new ProductManager();
-
-const test = async() => {
-    await manager.addProduct({title: 'Harina', description: 'tipo 0000', price: '300', thumbnail: 'img/harina.png', code: '2324H', stock: '50'})
-    console.log ('/////////getProducts///////////');    
-    let viewProductsFirst =  await manager.getProducts();
-    console.log(viewProductsFirst);
-    console.log ('/////////addProduct = Azucar ///////////');    
-    await manager.addProduct({title: 'Azucar', description: 'Negra', price: '500', thumbnail: 'img/azucar.png', code: '24564A', stock: '30'})
-    let viewProductsSecond =  await manager.getProducts();
-    console.log(viewProductsSecond);
-    console.log ('///////// getProductById = 2 ///////////');    
-    console.log (await manager.getProductById(2));
-    console.log ('/////////addProduct = Oregano ///////////');    
-    await manager.addProduct({title: 'Oregano', description: 'Triturado', price: '200', thumbnail: 'img/oregano.png', code: '32644O', stock: '50'})
-    let viewProductsThird =  await manager.getProducts();
-    console.log(viewProductsThird);
-    console.log ('///////// updateProduct = 2 ///////////');    
-    await manager.updateProduct([{id: '2', title:'Pimienta', price: '200', thumbnail: 'img/pimienta.png'}]);
-    let viewProductsFourth = await manager.getProducts();
-    console.log(viewProductsFourth);
-    console.log ('///////// deleteProduct = 3 ///////////');    
-    await manager.deleteProduct(3);
-    let viewProductsFifth = await manager.getProducts();
-    console.log(viewProductsFifth);
-
-    console.log(await manager.getProducts(2));
-} 
-
-
-
-test(); */
 
 
 

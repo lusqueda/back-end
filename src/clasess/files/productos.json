@@ -1,29 +1,92 @@
 [
 	{
-		"title": "Harina",
-		"description": "tipo 0000",
-		"price": "300",
-		"thumbnail": "img/harina.png",
-		"code": "2324H",
-		"stock": "50",
+		"title": "Tomillo",
+		"description": "seco",
+		"code": "2398T",
+		"price": "101",
+		"status": "true",
+		"stock": "10",
+		"category": "especias",
 		"id": 1
 	},
 	{
-		"title": "Pimienta",
-		"description": "Negra",
-		"price": "200",
-		"thumbnail": "img/pimienta.png",
-		"code": "24564A",
-		"stock": "30",
-		"id": 2
+		"title": "Oregano",
+		"description": "seco",
+		"code": "1218A",
+		"price": "110",
+		"status": "true",
+		"category": "especias",
+		"id": 2,
+		"stock": "110"
 	},
 	{
-		"title": "Azucar",
-		"description": "Negra",
-		"price": "300",
-		"thumbnail": "img/azucar.png",
-		"code": "24434AN",
-		"stock": "32",
+		"title": "Albahca",
+		"description": "seco",
+		"code": "1318A",
+		"price": "10",
+		"status": "true",
+		"stock": "10",
+		"category": "especias",
 		"id": 3
+	},
+	{
+		"title": "Perejil",
+		"description": "seco",
+		"price": "110",
+		"status": "true",
+		"stock": "110",
+		"category": "especias",
+		"id": 4
+	},
+	{
+		"title": "Perejil",
+		"description": "seco",
+		"price": "110",
+		"status": "true",
+		"category": "especias",
+		"id": 5,
+		"stock": "110"
+	},
+	{
+		"title": "Albahca",
+		"description": "seco",
+		"code": "1318A",
+		"status": "true",
+		"stock": "10",
+		"category": "especias",
+		"id": 6
+	},
+	{
+		"title": "Albahca",
+		"description": "seco",
+		"code": "1318A",
+		"price": "10",
+		"stock": "10",
+		"category": "especias",
+		"id": 8
+	},
+	{
+		"title": "Albahca",
+		"description": "seco",
+		"code": "1318A",
+		"price": "10",
+		"status": "true",
+		"stock": "10",
+		"category": "especias",
+		"id": 9
+	},
+	{
+		"title": "Tomillo",
+		"description": "seco",
+		"code": "2398T",
+		"price": "101",
+		"status": "true",
+		"stock": "10",
+		"category": "especias",
+		"thumbnails": [
+			"img/tomillo.jpg",
+			"imagenes/tomillo.png"
+		],
+		"id": 10
 	}
 ]

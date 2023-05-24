@@ -1,80 +1,102 @@
 import fs from 'fs';
 
-const path = 'src/clasess/files/productos.json';
+const path = 'src/clasess/files/cart.json';
 
-export default class ProductManager {
+export default class CartManager {
 
-    getProducts = async (limit) => {
+    getCarts = async (limit) => {
         if (fs.existsSync(path)) {
             const data = await fs.promises.readFile(path,"utf-8");
-            const products = JSON.parse(data);
+            const carts = JSON.parse(data);
 
             if(limit > 0){
-                const limitProducts = products.slice(0, limit);
-                return limitProducts
+                const limitCarts = carts.slice(0, limit);
+                return limitCarts
             }        
-            return products    
+            return carts    
         }else{
             return []    
         }    
     }
 
-    getProductById = async (idSearch) => {
-        const products = await this.getProducts();
-        const product = products.find((element) => {
+    getCartById = async (idSearch) => {
+        const carts = await this.getCarts();
+        const cart = carts.find((element) => {
             return element.id == idSearch
         });
-        return product ? product : "Producto no encontrado"
+        return cart.products
     }
 
-    updateProduct = async (element,pid) => {
-        const products = await this.getProducts();
-        let id = products.findIndex(key => key.id == pid)
-        if(id)
-            if(element.title != null){
-                products[id].title = element.title;
-            }  
-            if(element.description != null){
-                products[id].description = element.description;
-            }  
-            if(element.code != null){
-                products[id].code = element.thumbnail;
-            }  
-            if(element.price != null){
-                products[id].price = element.price;
-            }
-            if(element.status != null){
-                products[id].status = element.status;
-            }  
-            if(element.stock != null){
-                products[id].stock = element.stock;
-            }   
-            if(element.category != null){
-                products[id].category = element.category;
-            }    
-        await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
+    updateCart = async (element,pid) => {
+        const carts = await this.getCarts();
+        let id = carts.findIndex(key => key.id == pid)
+        if(element.title != null){
+            carts[id].title = element.title;
+        }  
+        if(element.description != null){
+            carts[id].description = element.description;
+        }  
+        if(element.code != null){
+            carts[id].code = element.thumbnail;
+        }  
+        if(element.price != null){
+            carts[id].price = element.price;
+        }
+        if(element.status != null){
+            carts[id].status = element.status;
+        }  
+        if(element.stock != null){
+            carts[id].stock = element.stock;
+        }   
+        if(element.category != null){
+            carts[id].category = element.category;
+        }    
+        await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'))
         return products    
     }
 
-    deleteProduct = async (idSearch) => {
-        const products = await this.getProducts();
-        let id = products.findIndex(key => key.id == idSearch)
-        products.splice(id, 1);
-        await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
-        return products    
+    deleteCart = async (idSearch) => {
+        const carts = await this.getProducts();
+        let id = carts.findIndex(key => key.id == idSearch)
+        carts.splice(id, 1);
+        await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'))
+        return carts    
     }
 
-    addProduct = async (info) => {
-        const products = await this.getProducts();
-        if (products.length == 0 ) {
+    addCart = async (info) => {
+        const carts = await this.getCarts();
+        if (carts.length == 0 ) {
             info.id = 1
         }else{
-            info.id = products[products.length - 1].id + 1
+            info.id = carts[carts.length - 1].id + 1
         }
-        products.push(info);
-        await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
+
+        carts.push(info);
+        await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'))
         return info
     }
+
+
+    addProductToCart = async (cart, product) => {
+        const carts = await this.getCarts();
+        let id = carts.findIndex(key => key.id == cart)
+        let flg = 0
+
+        if (carts[id].products.length == 0 ) {
+            carts[id].products = [{"id": product, "qty": 1}]
+        }else{
+            carts[id].products.forEach(element => {
+                if(element.id == product){
+                    carts[id].products.qty = element.qty ++
+                    flg = 1
+                }
+            });
+            flg == 0 ? carts[id].products.push({"id": product, "qty": 1}) : null;
+        }
+
+        await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'))
+    }
+
 
     verifyParameters = async (req, res, next) => {
         const product = req.body;
@@ -87,12 +109,13 @@ export default class ProductManager {
                                 (product.category == null || product.category == '') ? res.send('El campo category es necesario') : next();
     }
 
-    verifyProductId = async (req, res, next) => {
-        const product = req.params.pid;
-        const products = await this.getProducts();
-        let id = products.findIndex(key => key.id == product);
-        ((id).toString() != '-1') ? next() : res.send('No existe el producto') 
+    verifyCartId = async (req, res, next) => {
+        const cart = req.params.cid;
+        const carts = await this.getCarts();
+        let id = carts.findIndex(key => key.id == cart);
+        ((id).toString() != '-1') ? next() : res.send('No existe el carrito') 
     }
+
 
 }
 

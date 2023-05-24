@@ -3,8 +3,6 @@ import CartManager from "../clasess/CartManager.js";
 import ProductManager from "../clasess/ProductManager.js";
 
 const router = Router();
-const carts = [];
-const products = [];
 const cartManager = new CartManager()
 const productManager = new ProductManager()
 
@@ -36,21 +34,6 @@ router.post("/:cid/product/:pid",cartManager.verifyCartId,productManager.verifyP
 
     const carts = await cartManager.addProductToCart(cart,product)
     res.send({ status: 'Se agrego un producto al carrito' });
-})
-
-router.put("/:cid/product/:pid",cartManager.verifyCartId,async (req,res)=>{
-    const cart = req.body;
-    const id = req.params.pid;
-
-    const carts = await cartManager.updateCart(cart,id)
-    res.send({ status: 'Se modifico el carto' });
-})
-
-router.delete("/:cid",cartManager.verifyCartId,async (req,res)=>{
-    const id = req.params.cid;
-
-    const carts = await cartManager.deleteCart(id)
-    res.send({ status: 'Se elimino el carrito' });
 })
 
 export default router;

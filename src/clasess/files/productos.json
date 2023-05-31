@@ -88,5 +88,15 @@
 			"imagenes/tomillo.png"
 		],
 		"id": 10
+	},
+	{
+		"title": "Aji",
+		"description": "molido",
+		"code": "2323AM",
+		"price": "200",
+		"status": "true",
+		"stock": "200",
+		"category": "especias",
+		"id": 11
 	}
 ]

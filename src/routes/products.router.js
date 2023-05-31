@@ -2,7 +2,6 @@ import { Router } from "express";
 import ProductManager from "../clasess/ProductManager.js";
 
 const router = Router();
-const products = [];
 const productManager = new ProductManager()
 
 router.get("/", async(req,res)=>{
@@ -10,7 +9,9 @@ router.get("/", async(req,res)=>{
 
     const products = await productManager.getProducts(limit)
     res.send(products)
+    //res.render('products',{products})
 })
+
 
 router.get("/:pid",productManager.verifyProductId, async(req,res)=>{
     let id = req.params.pid;
@@ -19,7 +20,7 @@ router.get("/:pid",productManager.verifyProductId, async(req,res)=>{
     res.send(product)
 })
 
-router.post("/",productManager.verifyParameters, async (req,res)=>{
+router.post("/", async (req,res)=>{
     const product = req.body;
 
     const products = await productManager.addProduct(product)

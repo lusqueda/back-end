@@ -27,7 +27,6 @@ function createChild(product) {
                 <p>Category: ${product.category}</p>
               `
 
-  // Actualizar el HTML de la página
   const newDiv = document.createElement('div');
   newDiv.id = product.id;
 

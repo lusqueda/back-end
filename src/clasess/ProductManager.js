@@ -59,9 +59,11 @@ export default class ProductManager {
     deleteProduct = async (idSearch) => {
         const products = await this.getProducts();
         let id = products.findIndex(key => key.id == idSearch)
-        products.splice(id, 1);
-        await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
-        return products    
+        if((id).toString() != '-1') {            
+            products.splice(id, 1);
+            await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
+            return products    
+        }   
     }
 
     addProduct = async (info) => {
@@ -73,7 +75,7 @@ export default class ProductManager {
         }
         products.push(info);
         await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
-        return info
+        return info.id
     }
 
     verifyParameters = async (req, res, next) => {

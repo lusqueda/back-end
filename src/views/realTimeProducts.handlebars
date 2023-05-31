@@ -1,0 +1,73 @@
+<div>
+    <form id="createForm">
+        <h1>Crear Producto</h1>
+
+        <div>
+            <label for="title">Nombre</label>
+            <input type="text" name="title" id="title" required >
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text" name="description" id="description" required>
+        </div>
+        <div>
+            <label for="code">Codigo</label>
+            <input type="text" name="code" id="code" required>
+        </div>    
+        <div>
+            <label for="price">Precio</label>
+            <input type="text" name="price" id="price" required>
+        </div>
+        <div>
+            <label for="status">Estado</label>    
+            <input type="text" name="status" id="status" required>
+        </div>
+        <div>
+            <label for="stock">Stock</label>    
+            <input type="text" name="stock" id="stock" required>
+        </div>
+        <div>
+            <label for="category">Categoria</label>    
+            <input type="text" name="category" id="category" required>
+        </div>
+            
+        <input type="submit" name="submit" id="submit"> 
+    </form>
+</div>
+<br/>
+
+<div>
+    <form id="deleteForm">
+        <h1>Eliminar Producto</h1>
+        <div>
+            <label for="title">Producto ID</label>
+            <input type="text" name="id" id="id" required >
+        </div>
+        <input type="submit" name="submit" id="submit"> 
+    </form>
+</div>
+<br/>
+
+
+<div id="products">
+    <h1>Productos</h1>
+    <hr>
+    {{#each products}}
+        <div id={{this.id}}>
+            <p>ID: {{this.id}}</p>
+            <p>Title: {{this.title}}</p>
+            <p>Description: {{this.description}}</p>
+            <p>Code: {{this.code}}</p>
+            <p>Price: {{this.price}}</p>
+            <p>Status: {{this.status}}</p>
+            <p>Stock: {{this.stock}}</p>
+            <p>Category: {{this.category}}</p>
+            <hr>
+        </div>
+    {{/each}}    
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+

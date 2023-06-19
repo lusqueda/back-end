@@ -17,38 +17,35 @@ const div = document.getElementById('products');
 
 function createChild(product) {
   const html = `
-                <p>ID: ${product.id}</p>
                 <p>Title: ${product.title}</p>
                 <p>Description: ${product.description}</p>
                 <p>Code: ${product.code}</p>
                 <p>Price: ${product.price}</p>
-                <p>Status: ${product.status}</p>
-                <p>Stock: ${product.stock}</p>
                 <p>Category: ${product.category}</p>
               `
 
   const newDiv = document.createElement('div');
-  newDiv.id = product.id;
+  newDiv.id = product.code;
 
   newDiv.innerHTML = html;
   div.appendChild(newDiv);
 
-  if (document.getElementById(product.id)) {
-    return alert('Se creo el Producto N° '+ product.id);
+  if (document.getElementById(product.code)) {
+    return alert('Se creo el Producto N° '+ product.code);
   }
 
 }
 
-function deleteChild(productId) {
-  const child = document.getElementById(productId);
+function deleteChild(productCode) {
+  const child = document.getElementById(productCode);
 
   if (!child) {
-    document.getElementById("id").value = "";
+    document.getElementById("code").value = productCode;
     return alert('No existe el producto');
   }else{
-    document.getElementById("id").value = "";
+    document.getElementById("code").value = "";
     div.removeChild(child);
-    return alert('Se elimino el producto N° ' + productId);
+    return alert('Se elimino el producto N° ' + productCode);
   }
 
 }

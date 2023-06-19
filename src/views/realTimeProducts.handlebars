@@ -19,14 +19,6 @@
             <input type="text" name="price" id="price" required>
         </div>
         <div>
-            <label for="status">Estado</label>    
-            <input type="text" name="status" id="status" required>
-        </div>
-        <div>
-            <label for="stock">Stock</label>    
-            <input type="text" name="stock" id="stock" required>
-        </div>
-        <div>
             <label for="category">Categoria</label>    
             <input type="text" name="category" id="category" required>
         </div>
@@ -40,8 +32,8 @@
     <form id="deleteForm">
         <h1>Eliminar Producto</h1>
         <div>
-            <label for="title">Producto ID</label>
-            <input type="text" name="id" id="id" required >
+            <label for="title">Producto Code</label>
+            <input type="text" name="code" id="code" required >
         </div>
         <input type="submit" name="submit" id="submit"> 
     </form>
@@ -53,14 +45,11 @@
     <h1>Productos</h1>
     <hr>
     {{#each products}}
-        <div id={{this.id}}>
-            <p>ID: {{this.id}}</p>
+        <div id={{this.code}}>
             <p>Title: {{this.title}}</p>
             <p>Description: {{this.description}}</p>
             <p>Code: {{this.code}}</p>
             <p>Price: {{this.price}}</p>
-            <p>Status: {{this.status}}</p>
-            <p>Stock: {{this.stock}}</p>
             <p>Category: {{this.category}}</p>
             <hr>
         </div>

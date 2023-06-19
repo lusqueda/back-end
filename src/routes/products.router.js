@@ -1,19 +1,18 @@
 import { Router } from "express";
-import ProductManager from "../clasess/ProductManager.js";
+import ProductManager from "../daos/mongodb/ProductManager.js";
 
 const router = Router();
 const productManager = new ProductManager()
 
 router.get("/", async(req,res)=>{
-    let limit = req.query.limit;
+    const products = await productManager.getProducts()
 
-    const products = await productManager.getProducts(limit)
     res.send(products)
     //res.render('products',{products})
 })
 
 
-router.get("/:pid",productManager.verifyProductId, async(req,res)=>{
+router.get("/:pid", async(req,res)=>{
     let id = req.params.pid;
     
     const product = await productManager.getProductById(id)
@@ -22,12 +21,13 @@ router.get("/:pid",productManager.verifyProductId, async(req,res)=>{
 
 router.post("/", async (req,res)=>{
     const product = req.body;
+    console.log(product);
 
-    const products = await productManager.addProduct(product)
+    await productManager.addProduct(product)
     res.send({ status: 'Se agrego un nuevo producto' });
 })
 
-router.put("/:pid",productManager.verifyProductId, async (req,res)=>{
+router.put("/:pid", async (req,res)=>{
     const product = req.body;
     const id = req.params.pid;
 
@@ -35,7 +35,7 @@ router.put("/:pid",productManager.verifyProductId, async (req,res)=>{
     res.send({ status: 'Se modifico el producto' });
 })
 
-router.delete("/:pid",productManager.verifyProductId, async (req,res)=>{
+router.delete("/:pid", async (req,res)=>{
     const id = req.params.pid;
 
     const products = await productManager.deleteProduct(id)

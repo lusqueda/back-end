@@ -1,20 +1,18 @@
 import { Router } from "express";
-import CartManager from "../clasess/CartManager.js";
-import ProductManager from "../clasess/ProductManager.js";
+import CartManager from "../daos/mongodb/CartManager.js";
+import ProductManager from "../daos/mongodb/ProductManager.js";
 
 const router = Router();
 const cartManager = new CartManager()
 const productManager = new ProductManager()
 
 
-router.get("/",async (req,res)=>{
-    let limit = req.query.limit;
-    
-    const carts = await cartManager.getCarts(limit)
+router.get("/",async (req,res)=>{ 
+    const carts = await cartManager.getCarts()
     res.send(carts)
 })
 
-router.get("/:cid",cartManager.verifyCartId, async(req,res)=>{
+router.get("/:cid", async(req,res)=>{
     let id = req.params.cid;
 
     const cart = await cartManager.getCartById(id)
@@ -28,7 +26,7 @@ router.post("/", async (req,res)=>{
     res.send({ status: 'Se agrego un nuevo carrito' });
 })
 
-router.post("/:cid/product/:pid",cartManager.verifyCartId,productManager.verifyProductId, async (req,res)=>{
+router.post("/:cid/product/:pid", async (req,res)=>{
     const cart = req.params.cid;
     const product = req.params.pid;
 

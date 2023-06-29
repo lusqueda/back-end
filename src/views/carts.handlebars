@@ -1,0 +1,17 @@
+<div>
+    {{#each cart}}
+        {{#each this.products}}
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header">{{this.product._id}}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{this.product.title}}</h5>
+                    <p class="card-text">Description: {{this.product.description}}</p>
+                    <p class="card-text">Codigo: {{this.product.code}}</p>
+                    <p class="card-text">Categoria: {{this.product.category}}</p>
+                    <p class="card-text">Precio: ${{this.product.price}}</p>
+                </div>
+                <div class="card-footer">Cantidad: {{this.qty}}</div>
+            </div>
+        {{/each}} 
+    {{/each}} 
+</div>

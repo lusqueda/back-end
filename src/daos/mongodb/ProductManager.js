@@ -9,13 +9,22 @@ export default class ProductManager {
     );
 
     addProduct = async (product) => {
-      let result = await productsModel.create(product)
-      return result
+        let result = await productsModel.create(product)
+        return result
     }
 
-    getProducts = async () => {
-       let result = await productsModel.find({}).lean()
-       return result
+    getProducts = async (limit = 3, page = 1, sort = 0, filter = null, filterValue = null) => {
+        let whereOptions = {}
+        if(filter != '' && filterValue != ''){
+            whereOptions = { [filter]: filterValue };
+        }       
+        let result = await productsModel.paginate( whereOptions,{
+           limit: limit,
+           page: page,
+           sort: { price: sort } 
+        });
+
+        return result
     }
 
     getProductById = async (id) => {

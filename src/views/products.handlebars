@@ -1,14 +1,44 @@
-<div id="products">
-    <h1>Productos</h1>
-    <hr>
-    {{#each products}}
-        <div id={{this.code}}>
-            <p>Title: {{this.title}}</p>
-            <p>Description: {{this.description}}</p>
-            <p>Code: {{this.code}}</p>
-            <p>Price: {{this.price}}</p>
-            <p>Category: {{this.category}}</p>
-        </div>
-        <hr>
-    {{/each}}    
+{{#if isValid}}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Code</th>
+                <th scope="col">Price</th>
+                <th scope="col">Category</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each docs}}
+            <tr id={{this._id}}>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.category}}</td>
+                <td><form action="http://localhost:8080/carts/6490d7842ece9f009f7be897/product/{{this._id}}" method="post"><button type="submit">Add Cart</button></form></td>    
+            </tr>
+        {{/each}}
+            <tr>
+                <td>
+                    {{#if hasPrevPage}}
+                        <a href={{this.prevLink}}>  Anterior </a>
+                    {{/if}}
+                    &nbsp;
+                    {{this.page}}
+                    &nbsp;
+                    {{#if hasNextPage}}
+                        <a href={{this.nextLink}}>  Siguiente  </a>
+                    {{/if}} 
+                </td>
+             </tr>
+        </tbody> 
+    </table>   
 </div>
+<br/>    
+{{else}}
+    <h1>No hay Productos</h1>
+{{/if}}     

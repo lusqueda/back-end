@@ -50,6 +50,7 @@ function deleteChild(productCode) {
 
 }
 
+
 socket.on('connect', () => {
   console.log('Conectado al servidor de socket.io');
 });

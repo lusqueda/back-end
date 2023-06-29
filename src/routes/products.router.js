@@ -4,13 +4,23 @@ import ProductManager from "../daos/mongodb/ProductManager.js";
 const router = Router();
 const productManager = new ProductManager()
 
-router.get("/", async(req,res)=>{
-    const products = await productManager.getProducts()
+router.get("/", async(req,res) => {
+    let limit = Number(req.query.limit)
+    let page = Number(req.query.page)
+    let sort = Number(req.query.sort)
+    let filter = req.query.filter
+    let filterValue = req.query.filterValue
+
+    const products = await productManager.getProducts(
+        limit, 
+        page, 
+        sort, 
+        filter, 
+        filterValue
+    )
 
     res.send(products)
-    //res.render('products',{products})
 })
-
 
 router.get("/:pid", async(req,res)=>{
     let id = req.params.pid;

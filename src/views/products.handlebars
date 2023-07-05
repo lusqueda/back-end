@@ -1,44 +1,64 @@
-{{#if isValid}}
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Code</th>
-                <th scope="col">Price</th>
-                <th scope="col">Category</th>
-                <th scope="col">Accion</th>
-            </tr>
-        </thead>
-        <tbody>
-        {{#each docs}}
-            <tr id={{this._id}}>
-                <td>{{this.title}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.code}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.category}}</td>
-                <td><form action="http://localhost:8080/carts/6490d7842ece9f009f7be897/product/{{this._id}}" method="post"><button type="submit">Add Cart</button></form></td>    
-            </tr>
-        {{/each}}
-            <tr>
-                <td>
-                    {{#if hasPrevPage}}
-                        <a href={{this.prevLink}}>  Anterior </a>
-                    {{/if}}
-                    &nbsp;
-                    {{this.page}}
-                    &nbsp;
-                    {{#if hasNextPage}}
-                        <a href={{this.nextLink}}>  Siguiente  </a>
-                    {{/if}} 
-                </td>
-             </tr>
-        </tbody> 
-    </table>   
-</div>
-<br/>    
+{{#if isAuth}}
+    <div>
+        <h1>Bienvenido {{user.name}} !!</h1>
+        <h3>Edad: {{user.age}}</h3>
+        <h3>E-mail: {{user.email}}</h3>
+        {{#if isAdmin}}
+            <h3>Perfil: Administrador</h3>
+        {{else}}
+            <h3>Perfil: Usuario</h3>
+        {{/if}}
+    </div>
+    
+    <br/><br/>
+    {{#if isValid}}
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each docs}}
+                    <tr id={{this._id}}>
+                        <td>{{this.title}}</td>
+                        <td>{{this.description}}</td>
+                        <td>{{this.code}}</td>
+                        <td>{{this.price}}</td>
+                        <td>{{this.category}}</td>
+                        <td><form action="http://localhost:8080/carts/6490d7842ece9f009f7be897/product/{{this._id}}" method="post"><button type="submit">Add Cart</button></form></td>     
+                    </tr>
+                {{/each}}
+                    <tr>
+                        <td>
+                            {{#if hasPrevPage}}
+                                <a href={{this.prevLink}}>  Anterior </a>
+                            {{/if}}
+                            &nbsp;
+                            {{this.page}}
+                            &nbsp;
+                            {{#if hasNextPage}}
+                                <a href={{this.nextLink}}>  Siguiente  </a>
+                            {{/if}} 
+                        </td>
+                    </tr>
+                </tbody> 
+            </table>   
+        </div>
+        <br/>    
+        <a href="/api/sessions/logout"><button>Salir</button></a>
+    {{else}}
+        <h1>No hay Productos</h1>
+    {{/if}}     
 {{else}}
-    <h1>No hay Productos</h1>
-{{/if}}     
+        <h1>No esta autorizado</h1>
+        <a href="/login"><button>Log In</button></a>
+{{/if}}    
+
+<script src="/js/actions.js"></script>

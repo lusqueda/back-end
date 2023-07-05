@@ -1,15 +1,24 @@
 import  express  from "express";
-import __dirname from "./utils.js";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 import handlebars from "express-handlebars";
+import __dirname from "./utils.js";
 
 import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
 import routerViews from "./routes/views.router.js"
+import routerSession from "./routes/session.router.js";
 
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
 
 const app = express()
+
+const connection = mongoose.connect(
+    "mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority",
+  );
+
 const httpServer = app.listen(8080, ()=>{console.log('Servidor Online')});
 const socketServer = new Server(httpServer);
 const productManager = new ProductManager();
@@ -17,13 +26,27 @@ const productManager = new ProductManager();
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-app.use(express.json())
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/public'));
-app.use('/views',routerViews);
+
+app.use(
+    session({
+      store: new MongoStore({
+        mongoUrl:
+          "mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority",
+      }),
+      secret: "mongoSecret",
+      resave: true,
+      saveUninitialized: false,
+    })
+  );
+
+app.use('/',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)
-
+app.use('/api/sessions', routerSession)
 
 const product = {}
 socketServer.on('connection', socket => {

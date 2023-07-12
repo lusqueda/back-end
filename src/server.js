@@ -4,12 +4,12 @@ import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
-
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
 import routerViews from "./routes/views.router.js"
 import routerSession from "./routes/session.router.js";
-
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
 
@@ -42,11 +42,14 @@ app.use(
       saveUninitialized: false,
     })
   );
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)
-app.use('/api/sessions', routerSession)
+app.use('/api/session', routerSession)
 
 const product = {}
 socketServer.on('connection', socket => {

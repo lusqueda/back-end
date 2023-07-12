@@ -13,7 +13,6 @@ router.get("/realtimeproducts", async(req,res)=>{
     let limit = req.query.limit;
     const products = await productManager.getProducts()
 
-    console.log(products)
     res.render('realTimeProducts',{products})
 })
 
@@ -27,7 +26,6 @@ router.get("/products", async(req,res)=>{
     result.isValid = !(page <= 0 || page > result.totalPages)
     result.isAuth = !(result.user == null)
     result.isAdmin = !(result.user.role != 'on')
-    console.log(result)
     res.render('products', result)
 })
 

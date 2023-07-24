@@ -1,48 +1,76 @@
 import { Router } from "express";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
-router.post("/register", passport.authenticate('register',{failureRedirect:'/failregister'}), async (req, res) => {
-  res.send({status: "success", message: "Usuario registrado"})
-});
+router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureRedirect: "/failregister",
+    session: false,
+  }),
+  async (req, res) => {
+    res.send({ status: "success", message: "Usuario registrado" });
+  }
+);
 
 router.get("/failregister", async (req, res) => {
-  console.log("Estrategia fallida")
-  res.send({error: "Fallido"})
+  console.log("Estrategia fallida");
+  res.send({ error: "Fallido" });
 });
 
-router.post("/login",passport.authenticate('login',{failureRedirect:'/faillogin'}), async (req, res) => {
-  if(!req.user) return res.status(400).send({status:"error", error:"Credenciales invalidas"})
-  req.session.user = {
-    first_name : req.user.first_name,
-    last_name : req.user.last_name,
-    age: req.user.age,
-    email: req.user.email,
-    role: req.user.role
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    failureRedirect: "/api/session/faillogin",
+    session: false,
+  }),
+  async (req, res) => {
+    let token = jwt.sign({ email: req.body.email }, "coderSecret", {
+      expiresIn: "24h",
+    });
+    res
+      .cookie("coderCookie", token, { httpOnly: true })
+      .send({ status: "success" });
   }
-  res.send({status: "success", payload:req.user})
-});
+);
+
+router.get(
+  '/current',
+  passport.authenticate("jwt", {session: false}),
+  (req,res) => {
+    res.send(req.user);
+  }
+);
 
 router.get("/faillogin", async (req, res) => {
-  res.send({error: "Login fallido"})
+  res.redirect('/login?e=error');
 });
 
-router.get("/logout", (req, res) => {
-  req.session.destroy( err => {
-      if(!err) res.redirect('/login')
-      else res.send({status: 'Logout ERROR', body: err})
-  })
-})
+router.get("/deleteCookie", (req, res) => {
+  try{
+    res.clearCookie('coderCookie')
+    res.redirect("/login");
+  }catch(e){
+    res.send({ status: "Logout ERROR", error: e });
+  }
+});
 
-router.get("/github", passport.authenticate("github", { scope: "user:email" }),
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: "user:email" }),
   (req, res) => {}
 );
 
-router.get('/githubcallback',passport.authenticate('github', {failureRedirect: '/login'}),async (req, res)=>{
-  console.log('exito')
-  req.session.user = req.user
-  res.redirect('/products')
-} )
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    console.log("exito");
+    req.session.user = req.user;
+    res.redirect("/products");
+  }
+);
 
-export default router
+export default router;

@@ -1,8 +1,10 @@
 {{#if isAuth}}
     <div>
-        <h1>Bienvenido {{user.name}} !!</h1>
-        <h3>Edad: {{user.age}}</h3>
-        <h3>E-mail: {{user.email}}</h3>
+        {{#each user}}
+            <h1>Bienvenido {{this.first_name}}  {{this.last_name}}!!</h1>
+            <h3>Edad: {{this.age}}</h3>
+            <h3>E-mail: {{this.email}}</h3>
+        {{/each}}                
         {{#if isAdmin}}
             <h3>Perfil: Administrador</h3>
         {{else}}
@@ -52,7 +54,7 @@
             </table>   
         </div>
         <br/>    
-        <a href="/api/session/logout"><button>Salir</button></a>
+        <a href="/api/session/deleteCookie"><button>Salir</button></a>
     {{else}}
         <h1>No hay Productos</h1>
     {{/if}}     
@@ -60,5 +62,3 @@
         <h1>No esta autorizado</h1>
         <a href="/login"><button>Log In</button></a>
 {{/if}}    
-
-<script src="/js/actions.js"></script>

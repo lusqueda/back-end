@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { userModel } from "../daos/mongodb/models/users.model.js";
 import ProductManager from "../daos/mongodb/ProductManager.js";
 import CartManager from "../daos/mongodb/CartManager.js";
 import { productsModel } from "../daos/mongodb/models/products.model.js";
+import passport from "passport";
 
 
 const productManager = new ProductManager()
@@ -16,18 +18,28 @@ router.get("/realtimeproducts", async(req,res)=>{
     res.render('realTimeProducts',{products})
 })
 
-router.get("/products", async(req,res)=>{
+router.get("/products", passport.authenticate("jwt", {failureRedirect: "/api/session/faillogin", session:false }),  async(req,res)=>{
     let page = parseInt(req.query.page);
     if(!page) page=1;
     let result = await productsModel.paginate({},{page,limit:5,lean:true})
-    result.user = req.session.user;
+    let user = await userModel.find({email: req.user.email}).lean();
+    result.user = user
     result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}`:'';
     result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}`:'';
     result.isValid = !(page <= 0 || page > result.totalPages)
     result.isAuth = !(result.user == null)
-    result.isAdmin = !(result.user.role != 'on')
+    result.isAdmin = !(user[0].role != 'on')
     res.render('products', result)
+
 })
+
+router.get(
+    "/",
+    passport.authenticate("jwt", { failureRedirect: "/login", session:false }),
+    async (req, res) => {
+      res.redirect("/products");
+    }
+  );
 
 router.get("/carts/:cid", async(req,res)=>{
     const cartId = req.params.cid;
@@ -41,7 +53,7 @@ router.get('/register', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { error: req.query.e });
 })
 
 router.get('/profile', (req, res) => {

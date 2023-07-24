@@ -3,23 +3,27 @@ import local from "passport-local";
 import GithubStrategy from "passport-github2";
 import { userModel } from "../daos/mongodb/models/users.model.js"
 import { createHash, validatePassword } from "../utils.js";
+import CartManager from "../daos/mongodb/CartManager.js";
 
+const cartManager = new CartManager()
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
     passport.use('register', new LocalStrategy(
         {passReqToCallback:true,usernameField:'email'}, async (req,username,password,done)=>{
-            const {first_name,last_name,email,age,role} = req.body;
+            const {first_name,last_name,email,age,cart,role} = req.body;
             try{
                 let user = await userModel.findOne({email:username});
                 if(user) {
                     console.log("El usuario ya existe")
                     return done(null,false);
                 }
+                let cartId = await cartManager.addCart();
                 const newUser = {
                     first_name,
                     last_name,
                     email,
                     age,
+                    cart: cartId,
                     role,
                     password: createHash(password)
                 }

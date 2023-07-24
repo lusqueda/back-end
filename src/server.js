@@ -1,17 +1,22 @@
-import  express  from "express";
-import session from "express-session";
+import express from "express";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
-import passport from "passport";
-import initializePassport from "./config/passport.config.js";
+
 import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
 import routerViews from "./routes/views.router.js"
 import routerSession from "./routes/session.router.js";
+
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
+
+import passport from "passport";
+import cookieParser from "cookie-parser";
+import  initializePassport  from "./config/passport.config.js";
+import { initializePassportJWT } from "./config/jwt.config.js";
+
 
 const app = express()
 
@@ -31,7 +36,12 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/public'));
 
-app.use(
+app.use(cookieParser());
+initializePassport();
+initializePassportJWT();
+app.use(passport.initialize());
+
+/*app.use(
     session({
       store: new MongoStore({
         mongoUrl:
@@ -41,10 +51,7 @@ app.use(
       resave: true,
       saveUninitialized: false,
     })
-  );
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+  );*/
 
 app.use('/',routerViews);
 app.use('/products', routerProducts)

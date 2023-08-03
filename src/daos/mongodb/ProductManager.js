@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { productsModel } from "./models/products.model.js";
-
+import { userModel } from "./models/users.model.js";
 
 export default class ProductManager {
 
@@ -13,17 +13,12 @@ export default class ProductManager {
         return result
     }
 
-    getProducts = async (limit = 3, page = 1, sort = 0, filter = null, filterValue = null) => {
-        let whereOptions = {}
-        if(filter != '' && filterValue != ''){
-            whereOptions = { [filter]: filterValue };
-        }       
+    getProducts = async (limit = 3, page = 1, sort = 0, whereOptions) => {
         let result = await productsModel.paginate( whereOptions,{
            limit: limit,
            page: page,
            sort: { price: sort } 
         });
-
         return result
     }
 
@@ -43,6 +38,19 @@ export default class ProductManager {
     deleteProduct = async (code) => {
         let result = await productsModel.deleteOne({code: code})
         return result 
+    }
+
+    paginateProducts = async (page, email) => {
+        if(!page) page=1;
+        let result = await productsModel.paginate({},{page,limit:5,lean:true})
+        let user = await userModel.find({email: email}).lean();
+        result.user = user
+        result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}`:'';
+        result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}`:'';
+        result.isValid = !(page <= 0 || page > result.totalPages)
+        result.isAuth = !(result.user == null)
+        result.isAdmin = !(user[0].role != 'on')
+        return result;
     }
 
 }

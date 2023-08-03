@@ -1,16 +1,14 @@
 import mongoose from "mongoose";
 import { cartModel } from "./models/carts.model.js";
-import ProductManager from "./ProductManager.js";
 import { productsModel } from "./models/products.model.js";
+import envConfig from "../../config/env.config.js";
 
 
 export default class CartManager {
 
     connection = mongoose.connect(
-        'mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority'
+        envConfig.mongoUrl
     );
-
-    productManager = new ProductManager();
 
     addCart = async () => {
         const result = await cartModel.create({ products: [] });
@@ -32,7 +30,12 @@ export default class CartManager {
         return result
     }
 
-    cartSave = async (cart) => {
+    getCarts = async () => {
+        const result = await cartModel.find();
+        return result
+    }
+
+    addProductToCart = async (cart) => {
         await cart.save();
         return;
     }

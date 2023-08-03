@@ -1,24 +1,23 @@
 import { Router } from "express";
-import ProductManager from "../daos/mongodb/ProductManager.js";
-import CartManager from "../daos/mongodb/CartManager.js";
+import ProductController from "../controllers/products.controller.js";
+import CartController from "../controllers/carts.controller.js";
 import passport from "passport";
 
-
-const productManager = new ProductManager()
-const cartManager = new CartManager()
+const productController = new ProductController()
+const cartController = new CartController()
 
 const router = Router();
 
 router.get("/realtimeproducts", async(req,res)=>{
     let limit = req.query.limit;
-    const products = await productManager.getProducts()
+    const products = await productController.getProductsController()
     res.render('realTimeProducts',{products})
 })
 
 router.get("/products", passport.authenticate("jwt", {failureRedirect: "/api/session/faillogin", session:false }),  async(req,res)=>{
     let page = parseInt(req.query.page);
     let email = req.user.email;
-    const result = await productManager.paginateProducts(page, email);
+    const result = await productController.paginateProductsController(page, email);
     res.render('products', result);
 })
 
@@ -32,7 +31,7 @@ router.get(
 
 router.get("/carts/:cid", async(req,res)=>{
     const cartId = req.params.cid;
-    let cart = await cartManager.getCartByIdLean(cartId)
+    let cart = await cartController.getCartByIdLeanController(cartId)
     res.render('carts', {cart});
 })
 

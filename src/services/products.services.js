@@ -8,11 +8,11 @@ export default class ProductService {
     }
 
     addProductService = async (product) => {
-        let result = await this.productDao.addProduct(product)                                                                                                                   )
+        let result = await this.productDao.addProduct(product)                                                                                                                   
         return result;
     }
 
-    getProductsService = async (filter = null, filterValue = null) => {
+    getProductsService = async (limit, page , sort, filter = null, filterValue = null) => {
         let whereOptions = {}
         if(filter != '' && filterValue != ''){
             whereOptions = { [filter]: filterValue };
@@ -22,7 +22,22 @@ export default class ProductService {
     }
 
     getProductByIdService = async (id) => {
-        let result = await this.productDao.getProductById(id)                                                                                                                   )
+        let result = await this.productDao.getProductById(id)                                                                                                                   
+        return result;
+    }
+
+    updateProductService = async  (id, element) => {
+        let result = await this.productDao.updateProduct(id, element)                                                                                                                   
+        return result;
+    }
+
+    deleteProductService = async (code) => {
+        let result = await this.productDao.deleteProduct(code)
+        return result 
+    }
+
+    paginateProductsService = async (page, email) => {
+        let result = await this.productDao.paginateProducts(page, email)
         return result;
     }
 }

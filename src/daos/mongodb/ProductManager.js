@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import { productsModel } from "./models/products.model.js";
 import { userModel } from "./models/users.model.js";
+import envConfig from "../../config/env.config.js";
 
 export default class ProductManager {
 
     connection = mongoose.connect(
-        'mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority'
+        envConfig.mongoUrl
     );
 
     addProduct = async (product) => {

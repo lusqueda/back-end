@@ -32,67 +32,27 @@ export default class CartManager {
         return result
     }
 
-    addProductToCart = async (cid, pid) => {
-        const product = await this.productManager.getProductById(pid);
-        const cart = await this.getCartById(cid);
-        let exist = 0;
-
-        if(product != null && cart != null){
-            if(cart.products.length !== 0){
-                cart.products.map(element => {
-                    if(element.product._id == pid){
-                        element.qty = element.qty + 1; 
-                        exist = 1
-                    }
-                });
-            }
-
-            if(exist !== 1){
-                cart.products.push({ product: product, qty: 1 });
-            }
-            
-            await cart.save()
-        }else{
-            return false;
-        }
-        return true;
-    }
-
-    updateAllProductsFromCart = async (cid,products) => {
-        const cart = await this.getCartById(cid);
-        cart.products = [products];
+    cartSave = async (cart) => {
         await cart.save();
         return;
     }
 
-    updateQtyProductFromCart = async (cid,pid,qty) => {
-        const cart = await this.getCartById(cid);
-        let exist = 0;
-
-        cart.products.map(element => {
-            if(element.product._id == pid){
-                element.qty = qty; 
-                exist = 1;
-            }
-        });        
-
-        if(exist === 1){
-            await cart.save();
-            return true
-        }
-        return false; 
-    }
-
-    deleteProductFromCart = async (cid, pid) => {
-        const cart = await this.getCartById(cid);
-        cart.products.pull(pid);
+    updateAllProductsFromCart = async (cart) => {
         await cart.save();
         return;
     }
 
-    deleteAllProductsFromCart = async (cid) => {
-        const cart = await this.getCartById(cid);
-        cart.products = [];
+    updateQtyProductFromCart = async (cart) => {
+        await cart.save();
+        return;
+    }
+
+    deleteProductFromCart = async (cart) => {
+        await cart.save();
+        return;
+    }
+
+    deleteAllProductsFromCart = async (cart) => {
         await cart.save();
         return;
     }

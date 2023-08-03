@@ -1,8 +1,10 @@
 import { Router } from "express";
 import ProductManager from "../daos/mongodb/ProductManager.js";
+import ProductController from "../controllers/products.controller.js";
 
 const router = Router();
 const productManager = new ProductManager()
+const productController = new ProductController()
 
 router.get("/", async(req,res) => {
     let limit = Number(req.query.limit)
@@ -10,7 +12,6 @@ router.get("/", async(req,res) => {
     let sort = Number(req.query.sort)
     let filter = req.query.filter
     let filterValue = req.query.filterValue
-
     const products = await productManager.getProducts(
         limit, 
         page, 
@@ -18,35 +19,30 @@ router.get("/", async(req,res) => {
         filter, 
         filterValue
     )
-
     res.send(products)
 })
 
 router.get("/:pid", async(req,res)=>{
     let id = req.params.pid;
-    
-    const product = await productManager.getProductById(id)
+    const product = await productController.getProductByIdContoller(id)
     res.send(product)
 })
 
 router.post("/", async (req,res)=>{
     const product = req.body;
-
-    await productManager.addProduct(product)
+    await productController.addProductContoller(product)
     res.send({ status: 'Se agrego un nuevo producto' });
 })
 
 router.put("/:pid", async (req,res)=>{
     const product = req.body;
     const id = req.params.pid;
-
     const products = await productManager.updateProduct(product,id)
     res.send({ status: 'Se modifico el producto' });
 })
 
 router.delete("/:pid", async (req,res)=>{
     const id = req.params.pid;
-
     const products = await productManager.deleteProduct(id)
     res.send({ status: 'Se elimino el producto' });
 })

@@ -1,10 +1,10 @@
 import CartManager from "../daos/mongodb/CartManager.js";
-import ProductService from "./products.services.js";
+import ProductManager from "../daos/mongodb/ProductManager.js";
 
 export default class CartService {
     constructor(){
-        this.cartDao = new CartManager(),
-        this.productService = new ProductService()
+        this.productDao = new ProductManager(),
+        this.cartDao = new CartManager()
     }
 
     addCartService = async () => {
@@ -28,7 +28,7 @@ export default class CartService {
     }
 
     addProductToCartService = async (cid, pid) => {
-        const product = await this.productService.getProductByIdService(pid);
+        const product = await this.productDao.getProductById(pid);
         const cart = await this.getCartByIdService(cid);
         let exist = 0;
 
@@ -46,7 +46,7 @@ export default class CartService {
                 cart.products.push({ product: product, qty: 1 });
             }
             
-            await this.cartDao.cartSave(cart);
+            await this.cartDao.addProductToCart(cart);
         }else{
             return false;
         }
@@ -57,7 +57,7 @@ export default class CartService {
     updateAllProductsFromCartService = async (cid,products) => {
         const cart = await this.getCartByIdService(cid);
         cart.products = [products];
-        await this.cartDao.cartSave(cart)
+        await this.cartDao.updateAllProductsFromCart(cart)
         return;
     }
 
@@ -73,7 +73,7 @@ export default class CartService {
         });        
 
         if(exist === 1){
-            await this.cartDao.cartSave(cart);
+            await this.cartDao.updateQtyProductFromCart(cart);
             return true
         }
         return false; 
@@ -82,14 +82,14 @@ export default class CartService {
     deleteProductFromCartService = async (cid, pid) => {
         const cart = await this.getCartByIdService(cid);
         cart.products.pull(pid);
-        await this.cartDao.cartSave(cart)
+        await this.cartDao.deleteProductFromCart(cart)
         return ;
     }
 
     deleteAllProductsFromCartService = async (cid) => {
         const cart = await this.getCartByIdService(cid);
         cart.products = [];
-        await this.cartDao.cartSave(cart)
+        await this.cartDao.deleteProductFromCart(cart)
         return;
     }
 

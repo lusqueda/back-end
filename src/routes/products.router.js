@@ -1,9 +1,7 @@
 import { Router } from "express";
-import ProductManager from "../daos/mongodb/ProductManager.js";
 import ProductController from "../controllers/products.controller.js";
 
 const router = Router();
-const productManager = new ProductManager()
 const productController = new ProductController()
 
 router.get("/", async(req,res) => {
@@ -12,7 +10,7 @@ router.get("/", async(req,res) => {
     let sort = Number(req.query.sort)
     let filter = req.query.filter
     let filterValue = req.query.filterValue
-    const products = await productManager.getProducts(
+    const products = await productController.getProductsController(
         limit, 
         page, 
         sort, 
@@ -37,13 +35,13 @@ router.post("/", async (req,res)=>{
 router.put("/:pid", async (req,res)=>{
     const product = req.body;
     const id = req.params.pid;
-    const products = await productManager.updateProduct(product,id)
+    await productController.updateProductController(product,id)
     res.send({ status: 'Se modifico el producto' });
 })
 
 router.delete("/:pid", async (req,res)=>{
     const id = req.params.pid;
-    const products = await productManager.deleteProduct(id)
+    await productController.deleteProductController(id)
     res.send({ status: 'Se elimino el producto' });
 })
 

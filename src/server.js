@@ -3,6 +3,7 @@ import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
+import envConfig from "./config/env.config.js";
 
 import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
@@ -20,11 +21,9 @@ import { initializePassportJWT } from "./config/jwt.config.js";
 
 const app = express()
 
-const connection = mongoose.connect(
-    "mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority",
-  );
+const connection = mongoose.connect(envConfig.mongoUrl);
 
-const httpServer = app.listen(8080, ()=>{console.log('Servidor Online')});
+const httpServer = app.listen(envConfig.port, ()=>{console.log('Servidor Online')});
 const socketServer = new Server(httpServer);
 const productManager = new ProductManager();
 

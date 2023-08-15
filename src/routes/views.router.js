@@ -16,7 +16,7 @@ router.get("/realtimeproducts", async(req,res)=>{
 
 router.get("/products", passport.authenticate("jwt", {failureRedirect: "/api/session/faillogin", session:false }),  async(req,res)=>{
     let page = parseInt(req.query.page);
-    let email = req.user.email;
+    let email = req.user.user.email;
     const result = await productController.paginateProductsController(page, email);
     res.render('products', result);
 })

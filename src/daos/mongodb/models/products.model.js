@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import uuid from "uuid-mongodb";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 const collection = 'products'
@@ -15,6 +16,7 @@ const ProductsSchema = new mongoose.Schema({
     },
     code: {
         type: String,
+        default: uuid.v1(),
         required: true
     },
     category: {
@@ -23,6 +25,10 @@ const ProductsSchema = new mongoose.Schema({
     },
     price: {
         type: String,
+        required: true    
+    },
+    stock: {
+        type: Number,
         required: true    
     }
 

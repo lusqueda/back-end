@@ -62,7 +62,7 @@ export default class CartService {
     }
 
     updateQtyProductFromCartService = async (cid,pid,qty) => {
-    const cart = await this.getCartByIdService(cid);
+        const cart = await this.getCartByIdService(cid);
         let exist = 0;
 
         cart.products.map(element => {
@@ -91,6 +91,42 @@ export default class CartService {
         cart.products = [];
         await this.cartDao.deleteProductFromCart(cart)
         return;
+    }
+
+    purchaseCartService = async (cid, user) => {
+        let ticket = {}
+        let items = []
+        let productss = []
+        let amount = 0;
+        let i = 0;
+
+        const cart = await this.getCartByIdService(cid);
+        const products =  await this.productDao.getAllProducts();
+
+        cart.products.map(element => {
+             items.push({ product: element.product, qty: element.qty })
+        }); 
+
+        items.forEach(element => {
+            i++
+            products.map(elements => {
+                if(element.product.id == elements.id){
+                    if(elements.stock >= element.qty){
+                        amount = parseInt(elements.price) + amount;
+                        productss.push({ product: elements.id, qty: element.qty, price: elements.price })
+                    }
+                }     
+            });
+        });
+
+        if(cart.products.length == i){
+            ticket.amount = amount;
+            ticket.products = productss;
+            ticket.purchaser = user.user.email
+            ticket.status = 'compra finalizada'
+            await this.cartDao.purchaseCart(ticket)
+        }
+
     }
 
 }

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { cartModel } from "./models/carts.model.js";
 import { productsModel } from "./models/products.model.js";
+import { ticketsModel } from "./models/tickets.model.js";
+
 import envConfig from "../../config/env.config.js";
 
 
@@ -60,24 +62,11 @@ export default class CartManager {
         return;
     }
 
-
-    verifyCartId = async (req, res, next) => {
-        const cart = req.params.cid;
-        let result = await cartModel.findOne({_id: cart});
-        (result !== null) ? next() : res.send('No existe el carrito');
+    purchaseCart = async (ticket) => {
+        const result = await ticketsModel.create(ticket)
+        return result
     }
 
-    verifyProductId = async (req, res, next) => {
-        const product = req.params.pid;
-        let result = await productsModel.findOne({_id: product});
-        (result !== null) ? next() : res.send('No existe el producto');
-    }
-
-    verifyProductBodyId = async (req, res, next) => {
-        const product = req.body.product;
-        let result = await productsModel.findOne({_id: product});
-        (result !== null) ? next() : res.send('No existe el producto');
-    }
 }
 
 

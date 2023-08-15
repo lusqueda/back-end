@@ -50,4 +50,9 @@ export default class CartController {
         return result;
     }
 
+    purchaseCartController = async (cid,user) => {
+        const result = await this.cartService.purchaseCartService(cid,user)
+        return result;
+    }
+
 }

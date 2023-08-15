@@ -23,6 +23,11 @@ export default class ProductManager {
         return result
     }
 
+    getAllProducts = async () => {
+        let result = await productsModel.find();
+        return result
+    }
+
     getProductById = async (id) => {
         let result = await productsModel.findOne({_id: id})
         return result 
@@ -50,7 +55,8 @@ export default class ProductManager {
         result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}`:'';
         result.isValid = !(page <= 0 || page > result.totalPages)
         result.isAuth = !(result.user == null)
-        result.isAdmin = !(user[0].role != 'on')
+        result.isAdmin = !(result.user[0].role != 'on');
+        result.cart = result.user[0].cart;
         return result;
     }
 

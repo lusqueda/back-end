@@ -1,5 +1,7 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
+import passport from "passport";
+import { rolesMiddlewareAdmin } from "./middlewares/roles.middleware.js";
 
 const router = Router();
 const productController = new ProductController()
@@ -26,11 +28,15 @@ router.get("/:pid", async(req,res)=>{
     res.send(product)
 })
 
-router.post("/", async (req,res)=>{
-    const product = req.body;
-    await productController.addProductContoller(product)
-    res.send({ status: 'Se agrego un nuevo producto' });
-})
+router.post("/", 
+    passport.authenticate('jwt',{session: false}),
+    rolesMiddlewareAdmin,
+    async (req,res)=>{
+        const product = req.body;
+        await productController.addProductContoller(product)
+        res.send({ status: 'Se agrego un nuevo producto' });
+    }
+)
 
 router.put("/:pid", async (req,res)=>{
     const product = req.body;
@@ -39,10 +45,14 @@ router.put("/:pid", async (req,res)=>{
     res.send({ status: 'Se modifico el producto' });
 })
 
-router.delete("/:pid", async (req,res)=>{
-    const id = req.params.pid;
-    await productController.deleteProductController(id)
-    res.send({ status: 'Se elimino el producto' });
-})
+router.delete("/:pid", 
+    passport.authenticate('jwt',{session: false}),
+    rolesMiddlewareAdmin,
+    async (req,res)=>{
+        const id = req.params.pid;
+        await productController.deleteProductController(id)
+        res.send({ status: 'Se elimino el producto' });
+    }
+)
 
 export default router;

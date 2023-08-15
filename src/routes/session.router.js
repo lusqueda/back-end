@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import { CurrentUserDTO } from "../controllers/dto/user.dto.js";
+import envConfig from "../config/env.config.js";
 
 const router = Router();
 
@@ -27,7 +29,8 @@ router.post(
     session: false,
   }),
   async (req, res) => {
-    let token = jwt.sign({ email: req.body.email }, "coderSecret", {
+    let user = req.user;
+    let token = jwt.sign({ user }, envConfig.jwtKey, {
       expiresIn: "24h",
     });
     res
@@ -40,7 +43,7 @@ router.get(
   '/current',
   passport.authenticate("jwt", {session: false}),
   (req,res) => {
-    res.send(req.user);
+    res.send(new CurrentUserDTO(req.user));
   }
 );
 
@@ -50,7 +53,7 @@ router.get("/faillogin", async (req, res) => {
 
 router.get("/deleteCookie", (req, res) => {
   try{
-    res.clearCookie('coderCookie')
+    res.clearCookie(envConfig.cookieKey)
     res.redirect("/login");
   }catch(e){
     res.send({ status: "Logout ERROR", error: e });

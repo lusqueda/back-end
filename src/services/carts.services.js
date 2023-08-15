@@ -82,6 +82,7 @@ export default class CartService {
     deleteProductFromCartService = async (cid, pid) => {
         const cart = await this.getCartByIdService(cid);
         cart.products.pull(pid);
+        console.log(cart.products)
         await this.cartDao.deleteProductFromCart(cart)
         return ;
     }
@@ -96,37 +97,43 @@ export default class CartService {
     purchaseCartService = async (cid, user) => {
         let ticket = {}
         let items = []
-        let productss = []
+        let productsSale = []
+        let productsToErase = []
         let amount = 0;
-        let i = 0;
 
         const cart = await this.getCartByIdService(cid);
         const products =  await this.productDao.getAllProducts();
 
         cart.products.map(element => {
-             items.push({ product: element.product, qty: element.qty })
+             items.push({ product: element.product, qty: element.qty, _id: element._id})
         }); 
 
         items.forEach(element => {
-            i++
             products.map(elements => {
-                if(element.product.id == elements.id){
+                if(element.product == elements.id){
                     if(elements.stock >= element.qty){
                         amount = parseInt(elements.price) + amount;
-                        productss.push({ product: elements.id, qty: element.qty, price: elements.price })
+                        productsSale.push({ product: elements.id, qty: element.qty, unit_price: elements.price })
+                        productsToErase.push({id: element._id})
                     }
                 }     
             });
         });
 
-        if(cart.products.length == i){
-            ticket.amount = amount;
-            ticket.products = productss;
-            ticket.purchaser = user.user.email
-            ticket.status = 'compra finalizada'
-            await this.cartDao.purchaseCart(ticket)
-        }
+        productsToErase.forEach(async element => {
+            await this.deleteProductFromCartService(cid, element.id);
+        })
 
+        if(amount != 0){
+            ticket.status = 'compra finalizada'
+        }else{
+            ticket.status = 'compra no realizada'
+        }    
+
+        ticket.amount = amount;
+        ticket.products = productsSale;
+        ticket.purchaser = user.user.email
+        await this.cartDao.purchaseCart(ticket)
     }
 
 }

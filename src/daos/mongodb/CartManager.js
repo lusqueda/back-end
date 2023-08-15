@@ -18,7 +18,7 @@ export default class CartManager {
     }
 
     getCartById = async (id) => {
-        const result = await cartModel.findOne({ _id: id }).populate('products.product');
+        const result = await cartModel.findOne({ _id: id });
         return result
     }
 

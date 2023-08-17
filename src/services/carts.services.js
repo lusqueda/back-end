@@ -82,7 +82,6 @@ export default class CartService {
     deleteProductFromCartService = async (cid, pid) => {
         const cart = await this.getCartByIdService(cid);
         cart.products.pull(pid);
-        console.log(cart.products)
         await this.cartDao.deleteProductFromCart(cart)
         return ;
     }
@@ -134,6 +133,8 @@ export default class CartService {
         ticket.products = productsSale;
         ticket.purchaser = user.user.email
         await this.cartDao.purchaseCart(ticket)
+
+        return ticket;
     }
 
 }

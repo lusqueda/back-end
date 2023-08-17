@@ -68,8 +68,8 @@ router.post("/:cid/purchase",
     verifyCartId, 
     async (req,res)=>{
         const cart = req.params.cid;
-        await cartController.purchaseCartController(cart,req.user)
-        res.send({ status: 'Compra Finalizada' });
+        const result = await cartController.purchaseCartController(cart,req.user)
+        res.send({ status: 'Compra Finalizada', ticket: result });
     }
 )
 

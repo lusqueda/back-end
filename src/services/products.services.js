@@ -40,4 +40,5 @@ export default class ProductService {
         let result = await this.productDao.paginateProducts(page, email)
         return result;
     }
+
 }

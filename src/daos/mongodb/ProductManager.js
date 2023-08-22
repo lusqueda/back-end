@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { productsModel } from "./models/products.model.js";
 import { userModel } from "./models/users.model.js";
 import envConfig from "../../config/env.config.js";
+import { generateProducts } from "../../utils.js";
 
 export default class ProductManager {
 
@@ -9,7 +10,7 @@ export default class ProductManager {
         envConfig.mongoUrl
     );
 
-    addProduct = async (product) => {
+    addProduct = async (product) => {    
         let result = await productsModel.create(product)
         return result
     }
@@ -60,6 +61,11 @@ export default class ProductManager {
         return result;
     }
 
+    mockingProducts = async () => {
+        for(let i = 0; i < 5; i++){
+            await productsModel.create(generateProducts());
+        }
+    }
 }
 
 

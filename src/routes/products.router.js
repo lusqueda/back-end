@@ -2,6 +2,8 @@ import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import passport from "passport";
 import { rolesMiddlewareAdmin } from "./middlewares/roles.middleware.js";
+import CustomError from "../services/error/custom.class.js";
+import { ErrorEnum } from "../services/error/enum.dictionary.js";
 
 const router = Router();
 const productController = new ProductController()
@@ -33,6 +35,16 @@ router.post("/",
     rolesMiddlewareAdmin,
     async (req,res)=>{
         const product = req.body;
+
+        if(!product.title || !product.description || !product.category || !product.price || !product.stock){
+            CustomError.createError({
+                name: "Product creation error",
+                cause: "ERROR",
+                message: "Error trying to create product",
+                code: ErrorEnum.INVALID_TYPES_ERROR
+            });
+        }
+
         await productController.addProductContoller(product)
         res.send({ status: 'Se agrego un nuevo producto' });
     }
@@ -54,5 +66,9 @@ router.delete("/:pid",
         res.send({ status: 'Se elimino el producto' });
     }
 )
+
+router.get("/mocking", (req, res) =>{
+    res.send({error: 'Hola'})
+})
 
 export default router;

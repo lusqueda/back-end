@@ -17,7 +17,6 @@ const ProductsSchema = new mongoose.Schema({
     code: {
         type: String,
         default: uuid.v1(),
-        required: true
     },
     category: {
         type: String,

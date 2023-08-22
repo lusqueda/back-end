@@ -1,6 +1,5 @@
 export const rolesMiddlewareAdmin =  (req, res, next) => {
-    console.log(req.user);
-    if(req.user.user.role === 'admin'){
+    if(req.user.user.role === 'on'){
         next()
     }else{
         res.send({error: `Acceso solo para Administradores.`})
@@ -8,7 +7,6 @@ export const rolesMiddlewareAdmin =  (req, res, next) => {
 };
 
 export const rolesMiddlewareUser =  (req, res, next) => {
-    console.log(req.user);
     if(req.user.user.role === 'user'){
         next()
     }else{

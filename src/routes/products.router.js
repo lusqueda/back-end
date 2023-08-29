@@ -4,6 +4,7 @@ import passport from "passport";
 import { rolesMiddlewareAdmin } from "./middlewares/roles.middleware.js";
 import CustomError from "../services/error/custom.class.js";
 import { ErrorEnum } from "../services/error/enum.dictionary.js";
+import { generateErrorInfo } from "../services/error/info.messages.js";
 
 const router = Router();
 const productController = new ProductController()
@@ -33,20 +34,25 @@ router.get("/:pid", async(req,res)=>{
 router.post("/", 
     passport.authenticate('jwt',{session: false}),
     rolesMiddlewareAdmin,
-    async (req,res)=>{
+    async (req,res, next)=>{
         const product = req.body;
-
-        if(!product.title || !product.description || !product.category || !product.price || !product.stock){
-            CustomError.createError({
-                name: "Product creation error",
-                cause: "ERROR",
-                message: "Error trying to create product",
-                code: ErrorEnum.INVALID_TYPES_ERROR
-            });
-        }
-
-        await productController.addProductContoller(product)
-        res.send({ status: 'Se agrego un nuevo producto' });
+       
+            if(!product.title || !product.description || !product.category || !product.price || !product.stock){
+                try {
+                    CustomError.createError({
+                        name: "Product creation error",
+                        cause: generateErrorInfo(product),
+                        message: "Error trying to create product",
+                        code: ErrorEnum.INVALID_TYPES_ERROR
+                    });
+                } catch (error) {
+                    next(error);
+                }
+            }
+    
+            await productController.addProductContoller(product)
+            res.send({ status: 'Se agrego un nuevo producto' });
+        
     }
 )
 

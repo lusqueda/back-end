@@ -9,4 +9,5 @@ export default {
     mongoUrl:process.env.MONGO_URL,
     jwtKey:process.env.JWT_KEY,
     cookieKey:process.env.COOKIE_KEY,
+    enviroment:process.env.ENVIROMENT,
 }

@@ -31,6 +31,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.6.1",
-    "uuid-mongodb": "^2.5.4"
+    "uuid-mongodb": "^2.5.4",
+    "winston": "^3.10.0"
   }
 }

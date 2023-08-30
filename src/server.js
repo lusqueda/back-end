@@ -10,6 +10,7 @@ import routerCarts from "./routes/carts.router.js";
 import routerViews from "./routes/views.router.js"
 import routerSession from "./routes/session.router.js";
 import routerMocking from "./routes/mocking.router.js";
+import routerLogger from "./routes/logger.router.js";
 
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
@@ -19,7 +20,7 @@ import cookieParser from "cookie-parser";
 import initializePassport  from "./config/passport.config.js";
 import { initializePassportJWT } from "./config/jwt.config.js";
 import { errorMiddleware } from "./services/error/middleware/error.middleware.js";
-
+import { addLogger } from "./utils/logger.js";
 
 const app = express()
 
@@ -54,13 +55,16 @@ app.use(passport.initialize());
     })
   );*/
 
-
- app.use('/',routerViews);
+app.use(errorMiddleware);
+app.use(addLogger);
+app.use('/',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)
 app.use('/api/session', routerSession)
 app.use('/mock', routerMocking)
-app.use(errorMiddleware);
+app.use('/loggertest', routerLogger)
+
+
 
 const product = {}
 socketServer.on('connection', socket => {

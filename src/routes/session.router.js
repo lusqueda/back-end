@@ -3,6 +3,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { CurrentUserDTO } from "../controllers/dto/user.dto.js";
 import envConfig from "../config/env.config.js";
+import sessionsController from "../controllers/sessions.controller.js";
 
 const router = Router();
 
@@ -75,5 +76,10 @@ router.get(
     res.redirect("/products");
   }
 );
+
+router.post("/resetPassword", sessionsController.resetPassword);
+
+router.post("/setPassword", sessionsController.setPassword);
+
 
 export default router;

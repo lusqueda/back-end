@@ -8,6 +8,7 @@ export default {
     ghSecret:process.env.GH_SECRET,
     mongoUrl:process.env.MONGO_URL,
     jwtKey:process.env.JWT_KEY,
+    jwtKeyRP:process.env.JWT_KEYRP,
     cookieKey:process.env.COOKIE_KEY,
     enviroment:process.env.ENVIROMENT,
 }

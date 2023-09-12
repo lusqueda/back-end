@@ -56,7 +56,7 @@ export default class ProductManager {
         result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}`:'';
         result.isValid = !(page <= 0 || page > result.totalPages)
         result.isAuth = !(result.user == null)
-        result.isAdmin = !(result.user[0].role != 'on');
+        result.isAdmin = !(result.user[0].role != 'admin');
         result.cart = result.user[0].cart;
         return result;
     }

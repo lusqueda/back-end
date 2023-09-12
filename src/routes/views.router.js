@@ -1,10 +1,12 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import CartController from "../controllers/carts.controller.js";
+import ViewsController from "../controllers/views.controller.js";
 import passport from "passport";
 
 const productController = new ProductController()
 const cartController = new CartController()
+const viewsController = new ViewsController()
 
 const router = Router();
 
@@ -48,6 +50,10 @@ router.get('/profile', (req, res) => {
         user: req.session.user
     });
 })
+
+router.get('/resetPassword', viewsController.resetPassword);
+
+router.get('/setPassword', passport.authenticate('jwtResetPassword', {session: false, failureRedirect: 'resetPassword'}),viewsController.setPassword);
 
 
 export default router;

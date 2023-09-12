@@ -1,7 +1,8 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import passport from "passport";
-import { rolesMiddlewareAdmin } from "./middlewares/roles.middleware.js";
+import { rolesMiddlewarePremiun } from "./middlewares/roles.middleware.js";
+import { usersMiddlewareAuth } from "./middlewares/users.middleware.js";
 import CustomError from "../services/error/custom.class.js";
 import { ErrorEnum } from "../services/error/enum.dictionary.js";
 import { generateErrorInfo } from "../services/error/info.messages.js";
@@ -33,25 +34,26 @@ router.get("/:pid", async(req,res)=>{
 
 router.post("/", 
     passport.authenticate('jwt',{session: false}),
-    rolesMiddlewareAdmin,
+    usersMiddlewareAuth,
+    rolesMiddlewarePremiun,
     async (req,res, next)=>{
         const product = req.body;
-       
-            if(!product.title || !product.description || !product.category || !product.price || !product.stock){
-                try {
-                    CustomError.createError({
-                        name: "Product creation error",
-                        cause: generateErrorInfo(product),
-                        message: "Error trying to create product",
-                        code: ErrorEnum.INVALID_TYPES_ERROR
-                    });
-                } catch (error) {
-                    next(error);
-                }
+        product.owner = req.user.user.email;
+        if(!product.title || !product.description || !product.category || !product.price || !product.stock){
+            try {
+                CustomError.createError({
+                    name: "Product creation error",
+                    cause: generateErrorInfo(product),
+                    message: "Error trying to create product",
+                    code: ErrorEnum.INVALID_TYPES_ERROR
+                });
+            } catch (error) {
+                next(error);
             }
-    
-            await productController.addProductContoller(product)
-            res.send({ status: 'Se agrego un nuevo producto' });
+        }
+
+        await productController.addProductContoller(product)
+        res.send({ status: 'Se agrego un nuevo producto' });
         
     }
 )
@@ -65,7 +67,7 @@ router.put("/:pid", async (req,res)=>{
 
 router.delete("/:pid", 
     passport.authenticate('jwt',{session: false}),
-    rolesMiddlewareAdmin,
+    rolesMiddlewarePremiun,
     async (req,res)=>{
         const id = req.params.pid;
         await productController.deleteProductController(id)

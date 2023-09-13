@@ -15,8 +15,8 @@ export default class UserController {
         return result;
     } 
 
-    deleteProductController = async (code) => {
-        const result = this.productService.deleteProductService(code)
+    changeRoleController = async (id, role) => {
+        const result = this.userService.changeRoleService(id, role)
         return result;
     }
 

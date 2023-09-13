@@ -31,8 +31,8 @@ export default class ProductService {
         return result;
     }
 
-    deleteProductService = async (code) => {
-        let result = await this.productDao.deleteProduct(code)
+    deleteProductService = async (id) => {
+        let result = await this.productDao.deleteProduct(id)
         return result 
     }
 

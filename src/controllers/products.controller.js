@@ -25,8 +25,8 @@ export default class ProductController {
         return result;
     }
 
-    deleteProductController = async (code) => {
-        const result = this.productService.deleteProductService(code)
+    deleteProductController = async (id) => {
+        const result = this.productService.deleteProductService(id)
         return result;
     }
 

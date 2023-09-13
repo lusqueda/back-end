@@ -3,7 +3,6 @@ import CartManager from "../daos/mongodb/CartManager.js";
 import CartController from "../controllers/carts.controller.js";
 import { CheckCartOwner, verifyCartId } from "./middlewares/carts.middleware.js";
 import passport from "passport";
-import { rolesMiddlewareUser } from "./middlewares/roles.middleware.js";
 import { verifyProductBodyId, verifyProductId } from "./middlewares/products.middleware.js";
 
 const router = Router();
@@ -27,11 +26,16 @@ router.post("/", async (req,res)=>{
     res.send({ status: 'Se agrego un nuevo carrito' });
 })
 
-router.post("/:cid/product/:pid", passport.authenticate('jwt', {session:false}), rolesMiddlewareUser, CheckCartOwner , verifyCartId, verifyProductId, async (req,res)=>{
-    const cart = req.params.cid;
-    const product = req.params.pid;
-    await cartController.addProductToCartController(cart,product);
-    res.send({ status: 'Se agrego un producto al carrito' });
+router.post("/:cid/product/:pid",
+    passport.authenticate('jwt', {session:false}), 
+    CheckCartOwner, 
+    verifyCartId, 
+    verifyProductId, 
+    async (req,res)=>{
+        const cart = req.params.cid;
+        const product = req.params.pid;
+        await cartController.addProductToCartController(cart,product);
+        res.send({ status: 'Se agrego un producto al carrito' });
 })
 
 router.put("/:cid", verifyCartId, verifyProductBodyId, async (req,res)=>{

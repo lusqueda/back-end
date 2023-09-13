@@ -1,6 +1,6 @@
 import { Router } from "express";
-import ProductController from "../controllers/products.controller.js";
 import passport from "passport";
+import ProductController from "../controllers/products.controller.js";
 import { rolesMiddlewarePremiun } from "./middlewares/roles.middleware.js";
 import { usersMiddlewareAuth } from "./middlewares/users.middleware.js";
 import CustomError from "../services/error/custom.class.js";
@@ -58,16 +58,19 @@ router.post("/",
     }
 )
 
-router.put("/:pid", async (req,res)=>{
-    const product = req.body;
-    const id = req.params.pid;
-    await productController.updateProductController(product,id)
-    res.send({ status: 'Se modifico el producto' });
+router.put("/:pid", 
+    passport.authenticate('jwt',{session: false}),
+    usersMiddlewareAuth,
+    async (req,res)=>{
+        const product = req.body;
+        const id = req.params.pid;
+        await productController.updateProductController(id,product)
+        res.send({ status: 'Se modifico el producto' });
 })
 
 router.delete("/:pid", 
     passport.authenticate('jwt',{session: false}),
-    rolesMiddlewarePremiun,
+    usersMiddlewareAuth,
     async (req,res)=>{
         const id = req.params.pid;
         await productController.deleteProductController(id)

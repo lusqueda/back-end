@@ -42,8 +42,8 @@ export default class ProductManager {
         return result 
     }
 
-    deleteProduct = async (code) => {
-        let result = await productsModel.deleteOne({code: code})
+    deleteProduct = async (id) => {
+        let result = await productsModel.deleteOne({_id: id})
         return result 
     }
 

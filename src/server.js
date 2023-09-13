@@ -9,6 +9,7 @@ import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
 import routerViews from "./routes/views.router.js"
 import routerSession from "./routes/session.router.js";
+import routerUsers from "./routes/users.router.js";
 import routerMocking from "./routes/mocking.router.js";
 import routerLogger from "./routes/logger.router.js";
 
@@ -61,6 +62,7 @@ app.use('/',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)
 app.use('/api/session', routerSession)
+app.use('/api/users', routerUsers)
 app.use('/mock', routerMocking)
 app.use('/loggertest', routerLogger)
 

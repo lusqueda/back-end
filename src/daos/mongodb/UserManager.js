@@ -22,6 +22,14 @@ export default class UserManager {
         return result;
     }
 
+    changeRole = async (id, role) => {
+        let result = await userModel.updateOne(
+            { id: id },
+            { role: role }
+        );
+        return result;
+    }
+
 }
 
 

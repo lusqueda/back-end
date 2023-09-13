@@ -1,13 +1,21 @@
-import UserService from "../../services/users.services.js";
+import ProductService from "../../services/products.services.js";
 
-const userService = new UserService();
+const productService = new ProductService();
 
 export const usersMiddlewareAuth = async (req, res, next) => {
-    let user = await userService.getUserService(req.user.user.email)
-    if(user){
+    if(req.user.user.role === "admin"){
         next()
     }else{
-        res.send({error: `El usuario no existe.`})
+        if(req.user.user.role === "premiun"){
+            let product = await productService.getProductByIdService(req.params.pid);
+            if(product.owner === req.user.user.email){
+                next()
+            }else{
+                res.send({error: `Solo puede realizar esta accion en productos propios.`})
+            }
+        }else{
+            res.send({error: `Esta accion es solo para Administradores y usuarios Premiun.`})
+        }        
     }
 };
 

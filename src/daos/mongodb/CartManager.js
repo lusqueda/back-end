@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { cartModel } from "./models/carts.model.js";
-import { productsModel } from "./models/products.model.js";
 import { ticketsModel } from "./models/tickets.model.js";
 
 import envConfig from "../../config/env.config.js";

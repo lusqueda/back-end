@@ -14,4 +14,9 @@ export default class UserService {
         const result = await this.userDao.getUser(email)
         return result;
     }
+
+    changeRoleService = async (id, role) => {
+        const result = await this.userDao.changeRole(id, role)
+        return result;
+    }
 }

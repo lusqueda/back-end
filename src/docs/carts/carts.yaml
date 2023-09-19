@@ -7,6 +7,8 @@ paths:
       responses:
         "200":
           description: Lista de los carritos
+        "401":
+          description: Usuario no logueado      
         "500":
           description: Hubo un error
     post:
@@ -16,6 +18,8 @@ paths:
       responses:
         "200":
           description: Carrito creado
+        "401":
+          description: Usuario no logueado      
         "500":
           description: Hubo un error  
   /carts/{cid}:
@@ -33,19 +37,21 @@ paths:
       responses:
         "200":
           description: Carrito encontrado
+        "401":
+          description: Usuario no logueado      
         "500":
           description: Hubo un error
         "404":
           description: No existe el carrito
     put: 
-      summary: Actualizar datos de un producto por id
+      summary: Actualizar todos los productos del carrito
       tags:
-        - Products
+        - Carts
       parameters:
-      - name: pid
+      - name: cid
         in: path
         required: true
-        description: 'Parametro para identificar el producto'
+        description: 'Parametro para identificar el carrito'
         schema:
           $type: String
       requestBody:
@@ -53,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#components/schemas/updateProduct"    
+              $ref: "#components/schemas/updateAllCart"    
       responses:
         "200":
           description: Producto actualizado
@@ -64,26 +70,131 @@ paths:
         "404":
           description: "No existe el producto."       
     delete: 
-      summary: Eliminar un producto por id
+      summary: Eliminar todos los productos de un carrito
       tags:
-        - Products
+        - Carts
       parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Se eliminaron todos los productos del carrito.
+        "401":
+          description: Usuario no logueado      
+        "404":
+          description: No existe el carrito.
+  /carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto al carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
+          $type: String  
       - name: pid
         in: path
         required: true
         description: 'Parametro para identificar el producto'
         schema:
+          $type: String     
+      responses:
+        "200":
+          description: Se agrego el producto correctamente.
+        "500":
+          description: Hubo un error  
+        "401":
+          description: Usuario no logueado    
+        "404":
+          description: No existe el producto/carrito.  
+        "405":
+          description: No puede agregar productos propios.
+        "406":
+          description: Solo el propietario del carrito puede agregar productos.    
+    put:
+      summary: Actualizar cantidad de un producto en el carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
+          $type: String  
+      - name: pid
+        in: path
+        required: true
+        description: 'Parametro para identificar el producto'
+        schema:
+          $type: String    
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateQtyProduct"           
+      responses:
+        "200":
+          description: Se actualizo la cantidad del producto en el carrito.
+        "500":
+          description: Hubo un error  
+        "401":
+          description: Usuario no logueado    
+        "404":
+          description: No existe el producto/carrito.
+    delete:
+      summary: Eliminar un producto del carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
+          $type: String  
+      - name: pid
+        in: path
+        required: true
+        description: 'Parametro para identificar el producto'
+        schema:
+          $type: String         
+      responses:
+        "200":
+          description: Se elimino el producto del carrito.
+        "500":
+          description: Hubo un error  
+        "401":
+          description: Usuario no logueado    
+        "404":
+          description: No existe el producto/carrito.  
+  /carts/{cid}/purchase:
+    post:
+      summary: Finalizar la compra de un carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
           $type: String
       responses:
         "200":
-          description: Producto eliminado
+          description: Se finalizo la compra.
         "401":
-          description: "Esta accion es solo para Administradores y usuarios Premiun."       
-        "402":
-          description: "Solo puede realizar esta accion en productos propios."     
+          description: Usuario no logueado      
         "404":
-          description: "No existe el producto."
-
+          description: No existe el carrito.
 components:
   schemas:
     Cart:
@@ -103,9 +214,25 @@ components:
               qty:
                 type: Integer
                 description: Cantidad del producto
-
-      
-      
-      
+    updateAllCart:
+      type: object
+      properties:
+        product: 
+          type: ObjectId
+          description: Id del producto
+        qty: 
+          type: Integer
+          description: Cantidad del producto
+      example:
+        product: 6490b116a41ca40a39f56677
+        qty: 1
+    updateQtyProduct:
+      type: object
+      properties:
+        qty: 
+          type: Integer
+          description: Cantidad del producto
+      example:
+        qty: 1
 
         

@@ -29,9 +29,9 @@ router.post("/", async (req,res)=>{
 
 router.post("/:cid/product/:pid",
     passport.authenticate('jwt', {session:false}), 
-    CheckCartOwner, 
-    verifyCartId, 
     verifyProductId, 
+    verifyCartId, 
+    CheckCartOwner, 
     async (req,res)=>{
         const cart = req.params.cid;
         const product = req.params.pid;
@@ -39,33 +39,47 @@ router.post("/:cid/product/:pid",
         res.send({ status: 'Se agrego un producto al carrito' });
 })
 
-router.put("/:cid", verifyCartId, verifyProductBodyId, async (req,res)=>{
-    const cart = req.params.cid;
-    const products = req.body;
-    await cartController.updateAllProductsFromCartController(cart,products)
-    res.send({ status: 'Se actualizo todo el carrito' });
+router.put("/:cid", 
+    passport.authenticate('jwt', {session:false}), 
+    verifyProductBodyId, 
+    verifyCartId, 
+    async (req,res)=>{
+        const cart = req.params.cid;
+        const products = req.body;
+        await cartController.updateAllProductsFromCartController(cart,products)
+        res.send({ status: 'Se actualizo todo el carrito' });
 })
 
-router.put("/:cid/product/:pid", verifyCartId, verifyProductId, async (req,res)=>{
-    const cart = req.params.cid;
-    const product = req.params.pid;
-    const qty = req.body.qty;
-    await cartController.updateQtyProductFromCartController(cart,product,qty)
-    res.send({ status: 'Se actualizo la cantidad del producto' });
+router.put("/:cid/product/:pid", 
+    passport.authenticate('jwt', {session:false}), 
+    verifyCartId, 
+    verifyProductId, 
+    async (req,res)=>{
+        const cart = req.params.cid;
+        const product = req.params.pid;
+        const qty = req.body.qty;
+        await cartController.updateQtyProductFromCartController(cart,product,qty)
+        res.send({ status: 'Se actualizo la cantidad del producto' });
 })
 
-router.delete("/:cid/product/:pid", verifyCartId, async (req,res)=>{
-    const cart = req.params.cid;
-    const product = req.params.pid;
-    await cartController.deleteProductFromCartController(cart,product);
-    res.send({ status: 'Se elimino un producto del carrito' });
+router.delete("/:cid/product/:pid", 
+    passport.authenticate('jwt', {session:false}), 
+    verifyCartId, 
+    async (req,res)=>{
+        const cart = req.params.cid;
+        const product = req.params.pid;
+        await cartController.deleteProductFromCartController(cart,product);
+        res.send({ status: 'Se elimino un producto del carrito' });
 
 })
 
-router.delete("/:cid", verifyCartId, async (req,res)=>{
-    const cart = req.params.cid;
-    await cartController.deleteAllProductsFromCartController(cart)
-    res.send({ status: 'Se eliminaron todos los productos del carrito' });
+router.delete("/:cid",
+    passport.authenticate('jwt', {session:false}), 
+    verifyCartId, 
+    async (req,res)=>{
+        const cart = req.params.cid;
+        await cartController.deleteAllProductsFromCartController(cart)
+        res.send({ status: 'Se eliminaron todos los productos del carrito' });
 })
 
 router.post("/:cid/purchase", 

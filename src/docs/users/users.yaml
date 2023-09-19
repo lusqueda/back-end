@@ -131,7 +131,7 @@ components:
           type: String
           description: password del usuario
       example:
-        email: l_usqueda@gmail.com
+        email: l_usqueda@hotmail.com
         password: "12345" 
       
       

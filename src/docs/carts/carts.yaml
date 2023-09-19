@@ -1,0 +1,111 @@
+paths:
+  /carts:
+    get:
+      summary: Obtener todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Lista de los carritos
+        "500":
+          description: Hubo un error
+    post:
+      summary: Crear un carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado
+        "500":
+          description: Hubo un error  
+  /carts/{cid}:
+    get:
+      summary: Obtener un carrito por id
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: 'Parametro para identificar el carrito'
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+        "500":
+          description: Hubo un error
+        "404":
+          description: No existe el carrito
+    put: 
+      summary: Actualizar datos de un producto por id
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: 'Parametro para identificar el producto'
+        schema:
+          $type: String
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateProduct"    
+      responses:
+        "200":
+          description: Producto actualizado
+        "401":
+          description: "Esta accion es solo para Administradores y usuarios Premiun."       
+        "402":
+          description: "Solo puede realizar esta accion en productos propios."     
+        "404":
+          description: "No existe el producto."       
+    delete: 
+      summary: Eliminar un producto por id
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: 'Parametro para identificar el producto'
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto eliminado
+        "401":
+          description: "Esta accion es solo para Administradores y usuarios Premiun."       
+        "402":
+          description: "Solo puede realizar esta accion en productos propios."     
+        "404":
+          description: "No existe el producto."
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: Id autogenerado por mongo
+        products: 
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                 type: ObjectId
+                 description: Id del producto autogenerado por mongo
+              qty:
+                type: Integer
+                description: Cantidad del producto
+
+      
+      
+      
+
+        

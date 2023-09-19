@@ -11,10 +11,10 @@ export const usersMiddlewareAuth = async (req, res, next) => {
             if(product.owner === req.user.user.email){
                 next()
             }else{
-                res.send({error: `Solo puede realizar esta accion en productos propios.`})
+                res.status(402).send({error: `Solo puede realizar esta accion en productos propios.`})
             }
         }else{
-            res.send({error: `Esta accion es solo para Administradores y usuarios Premiun.`})
+            res.status(401).send({error: `Esta accion es solo para Administradores y usuarios Premiun.`})
         }        
     }
 };

@@ -9,12 +9,6 @@ paths:
       responses:
         "200":
           description: Recibimos token de login
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                 $ref: '#components/schemas/User'
         "500":
           description: "No se pudo loguear" 
       requestBody:

@@ -12,13 +12,13 @@ export const CheckCartOwner = async (req, res, next) =>{
             if(product.owner !== req.user.user.email){
                 next()
             }else{
-                res.send({error: `No puede agregar productos propios.`})
+                res.status(405).send({error: `No puede agregar productos propios.`})
             }
         }else{
             next()
         }
     }else{
-        res.send({error: `Solo el propietario del carrito puede agregar productos.`});
+        res.status(406).send({error: `Solo el propietario del carrito puede agregar productos.`});
     } 
 };
 

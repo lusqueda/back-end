@@ -1,0 +1,56 @@
+paths:
+  /api/session/login:
+    post:
+      security:
+      - bearerAuth: []
+      summary: Login usuario
+      tags:
+        - Session
+      responses:
+        "200":
+          description: Recibimos token de login
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                 $ref: '#components/schemas/User'
+        "500":
+          description: "No se pudo loguear" 
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/loginUser"    
+  /api/session/register:
+    post:
+      security:
+      - bearerAuth: []
+      summary: Crea nuevo usuario
+      tags:
+        - Session
+      responses:
+        "200":
+          description: devuelve los usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                 $ref: '#components/schemas/User'
+        "500":
+          description: "hubo un error" 
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/createUser"    
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

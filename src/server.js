@@ -18,6 +18,8 @@ import {Server} from 'socket.io';
 
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 import initializePassport  from "./config/passport.config.js";
 import { initializePassportJWT } from "./config/jwt.config.js";
 import { errorMiddleware } from "./services/error/middleware/error.middleware.js";
@@ -44,6 +46,19 @@ initializePassport();
 initializePassportJWT();
 app.use(passport.initialize());
 
+const swaggerOptions = {
+    definition: {
+       openapi: '3.0.1',
+       info: {
+        title: 'Documentacion API',
+        description: 'e-Commerce'
+       }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJsdoc(swaggerOptions)
+app.use('/apidocs',swaggerUiExpress.serve,  swaggerUiExpress.setup(specs))
+
 /*app.use(
     session({
       store: new MongoStore({
@@ -58,7 +73,7 @@ app.use(passport.initialize());
 
 app.use(errorMiddleware);
 app.use(addLogger);
-app.use('/',routerViews);
+app.use('/views',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)
 app.use('/api/session', routerSession)

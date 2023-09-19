@@ -14,16 +14,17 @@ router.get("/",async (req,res)=>{
     res.send(carts)
 })
 
-router.get("/:cid", async(req,res)=>{
-    let id = req.params.cid;
-    const cart = await cartController.getCartByIdController(id)
-    res.send(cart)
+router.get("/:cid", 
+    verifyCartId,
+    async(req,res)=>{
+        const id = req.params.cid;
+        const cart = await cartController.getCartByIdController(id)
+        res.send({ status: 'Carrito encontrado', cart: cart });
 })
 
 router.post("/", async (req,res)=>{
-    const cart = req.body;
-    await cartController.getCartByIdController(cart)
-    res.send({ status: 'Se agrego un nuevo carrito' });
+    const result = await cartController.addCartContoller()
+    res.send({ status: 'Se agrego un nuevo carrito', cart: result });
 })
 
 router.post("/:cid/product/:pid",

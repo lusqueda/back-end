@@ -22,13 +22,13 @@ describe('Test cart DAO', ()=>{
         expect(result._id).to.be.ok;
     }).timeout(10000)
 
-    // it('Prueba para actualizar datos de un producto', async () => {
-    //     let id = "6511d794b031f39bbc8c8cde"
-    //     let product = {
-    //             price: "800"
-    //         }
-    //     const result = await productDao.updateProductController(id,product);
-    //     assert.strictEqual(result.acknowledged,true);
-    // }).timeout(10000)
+    it('Prueba para actualizar datos de un producto', async () => {
+        let id = "6511d794b031f39bbc8c8cde"
+        let product = {
+                price: "800"
+            }
+        const result = await productDao.updateProductController(id,product);
+        assert.strictEqual(result.acknowledged,true);
+    }).timeout(10000)
 
 })

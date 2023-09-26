@@ -27,7 +27,7 @@ import { addLogger } from "./utils/logger.js";
 
 const app = express()
 
-const connection = mongoose.connect(envConfig.mongoUrlTest);
+const connection = mongoose.connect(envConfig.mongoUrl);
 
 const httpServer = app.listen(envConfig.port, ()=>{console.log('Servidor Online')});
 const socketServer = new Server(httpServer);

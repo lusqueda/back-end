@@ -6,9 +6,9 @@ import { generateProducts } from "../../utils.js";
 
 export default class ProductManager {
 
-    connection = mongoose.connect(
-        envConfig.mongoUrl
-    );
+//    connection = mongoose.connect(
+//        envConfig.mongoUrl
+//    );
 
     addProduct = async (product) => {    
         let result = await productsModel.create(product)

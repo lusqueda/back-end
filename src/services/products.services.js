@@ -21,6 +21,11 @@ export default class ProductService {
         return result;
     }
 
+    getAllProductsService = async () => {
+        let result = await this.productDao.getAllProducts()
+        return result;
+    }
+
     getProductByIdService = async (id) => {
         let result = await this.productDao.getProductById(id)                                                                                                                   
         return result;

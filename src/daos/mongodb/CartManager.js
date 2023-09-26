@@ -7,9 +7,9 @@ import envConfig from "../../config/env.config.js";
 
 export default class CartManager {
 
-    connection = mongoose.connect(
-        envConfig.mongoUrl
-    );
+    // connection = mongoose.connect(
+    //     envConfig.mongoUrl
+    // );
 
     addCart = async () => {
         const result = await cartModel.create({ products: [] });

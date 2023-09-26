@@ -5,9 +5,9 @@ import envConfig from "../../config/env.config.js";
 
 export default class UserManager {
 
-    connection = mongoose.connect(
-        envConfig.mongoUrl
-    );
+    // connection = mongoose.connect(
+    //     envConfig.mongoUrl
+    // );
 
     updatePassword = async (email, element) => {
         let result = await userModel.updateOne(

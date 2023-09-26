@@ -15,6 +15,11 @@ export default class ProductController {
         return result;
     }
 
+    getAllProductsController = async () => {
+        const result = this.productService.getProductsService()
+        return result;
+    }
+
     getProductByIdContoller = async (id) => {
         const result = this.productService.getProductByIdService(id)
         return result;

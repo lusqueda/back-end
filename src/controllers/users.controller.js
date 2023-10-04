@@ -20,4 +20,12 @@ export default class UserController {
         return result;
     }
 
+    uploadFilesController = async (category, path, id) => {
+        const result = this.userService.uploadFilesService(category, path, id)
+        return result;
+    }
+
+
+
+
 }    

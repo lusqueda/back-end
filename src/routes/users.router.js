@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import UserController from "../controllers/users.controller.js";
+import { uploader } from "../utils.js";
 
 const router = Router();
 const userController = new UserController()
@@ -25,5 +26,14 @@ router.put("/user/:uid",
         await userController.changeRoleController(req.uid,'user');
         res.send({status: 'El usuario ahora es User'})
 })
-   
+
+router.post("/:uid/documents",
+    passport.authenticate('jwt',{session: false}),
+    uploader.single('documents'),
+    async(req, res) => {
+        console.log(req.file)
+        console.log(req.body.category)
+        await userController.uploadFilesController(req.body.category,req.file.path,req.body.id);
+        res.render('uploadFiles',{id: req.user.user._id, success: 'Se subio el archivo correctamente'})
+})   
 export default router;

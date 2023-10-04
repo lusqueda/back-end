@@ -24,7 +24,7 @@ form.addEventListener('submit', e => {
                 timer: 3000,
                 timerProgressBar: true,
             }).then(function() {
-                window.location.href = "/login";
+                window.location.href = "/views/login";
             }); 
         }else{
             console.log(result.status)

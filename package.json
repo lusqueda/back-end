@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.0",
     "mongoose-paginate-v2": "^1.7.1",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.5",
     "nodemon": "^2.0.22",
     "package.json": "^2.0.1",

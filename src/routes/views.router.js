@@ -25,7 +25,7 @@ router.get("/products", passport.authenticate("jwt", {failureRedirect: "/api/ses
 
 router.get(
     "/",
-    passport.authenticate("jwt", { failureRedirect: "/login", session:false }),
+    passport.authenticate("jwt", { failureRedirect: "/views/login", session:false }),
     async (req, res) => {
       res.redirect("/products");
     }
@@ -53,7 +53,14 @@ router.get('/profile', (req, res) => {
 
 router.get('/resetPassword', viewsController.resetPassword);
 
-router.get('/setPassword', passport.authenticate('jwtResetPassword', {session: false, failureRedirect: 'resetPassword'}),viewsController.setPassword);
+router.get('/setPassword', 
+    passport.authenticate('jwtResetPassword', {session: false, failureRedirect: 'resetPassword'}),
+    viewsController.setPassword
+);
 
+router.get('/documents', 
+    passport.authenticate("jwt", { failureRedirect: "/views/login", session:false }),
+    viewsController.documents
+);
 
 export default router;

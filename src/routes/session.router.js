@@ -49,13 +49,13 @@ router.get(
 );
 
 router.get("/faillogin", async (req, res) => {
-  res.redirect('/login?e=error');
+  res.redirect('/views/login?e=error');
 });
 
 router.get("/deleteCookie", (req, res) => {
   try{
     res.clearCookie(envConfig.cookieKey)
-    res.redirect("/login");
+    res.redirect("/views/login");
   }catch(e){
     res.send({ status: "Logout ERROR", error: e });
   }
@@ -69,11 +69,11 @@ router.get(
 
 router.get(
   "/githubcallback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  passport.authenticate("github", { failureRedirect: "/views/login" }),
   async (req, res) => {
     console.log("exito");
     req.session.user = req.user;
-    res.redirect("/products");
+    res.redirect("/views/products");
   }
 );
 

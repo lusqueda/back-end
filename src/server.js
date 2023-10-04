@@ -81,8 +81,6 @@ app.use('/api/users', routerUsers)
 app.use('/mock', routerMocking)
 app.use('/loggertest', routerLogger)
 
-
-
 const product = {}
 socketServer.on('connection', socket => {
     console.log("Nuevo usuario conectado " + socket.id )

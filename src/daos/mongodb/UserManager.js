@@ -22,12 +22,22 @@ export default class UserManager {
         return result;
     }
 
+    getUserById = async (id) => {
+        let result = await userModel.findOne({_id:id});
+        return result;
+    }
+
     changeRole = async (id, role) => {
         let result = await userModel.updateOne(
             { id: id },
             { role: role }
         );
         return result;
+    }
+
+    uploadFiles = async (documents) => {
+        await documents.save();
+        return;
     }
 
 }

@@ -1,0 +1,41 @@
+<div class="col-12 text-center">
+    <h1>Subir Archivos</h1>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            {{success}}
+        </div>
+    {{/if}}
+</div>    
+    <div class="d-flex justify-content-center">
+        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+            <h4>Identificacion</h4>
+            <br/>
+            <div class="form-outline mb-4">
+                <input type="file" id="documents" name="documents" class="form-control" />
+            </div>
+            <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="category" value="identificacion" />
+            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+        </form>
+        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+            <h4>Comprobante de domicilio</h4>
+            <br/>
+            <div class="form-outline mb-4">
+                <input type="file" id="documents" name="documents" class="form-control" />
+            </div>
+            <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="category" value="domicilio" />
+            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+        </form>
+        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+            <h4>Comprobante de estado de cuenta</h4>
+            <br/>
+            <div class="form-outline mb-4">
+                <input type="file" id="documents" name="documents" class="form-control" />
+            </div>
+            <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="category" value="cuenta" />
+            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+        </form>
+        
+    </div>

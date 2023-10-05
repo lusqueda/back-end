@@ -17,6 +17,17 @@ export default class UserManager {
         return result 
     }
 
+    updateConnection = async (action, id) => {
+        const date = Date.now();
+        const datetime = new Date(date);
+        let last = action + '/' + datetime.toISOString();
+        let result = await userModel.updateOne(
+            { _id: id },
+            { last_connection: last }
+        );
+        return result 
+    }
+    
     getUser = async (email) => {
         let result = await userModel.findOne({email:email});
         return result;

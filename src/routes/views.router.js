@@ -27,7 +27,7 @@ router.get(
     "/",
     passport.authenticate("jwt", { failureRedirect: "/views/login", session:false }),
     async (req, res) => {
-      res.redirect("/products");
+      res.redirect("/views/products");
     }
   );
 

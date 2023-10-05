@@ -58,6 +58,7 @@ export default class ProductManager {
         result.isAuth = !(result.user == null)
         result.isAdmin = !(result.user[0].role != 'admin');
         result.cart = result.user[0].cart;
+        result.userId = result.user[0]._id;
         return result;
     }
 

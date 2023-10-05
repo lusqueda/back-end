@@ -12,6 +12,7 @@ import routerSession from "./routes/session.router.js";
 import routerUsers from "./routes/users.router.js";
 import routerMocking from "./routes/mocking.router.js";
 import routerLogger from "./routes/logger.router.js";
+import routerIndex from "./routes/index.router.js";
 
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
@@ -73,6 +74,7 @@ app.use('/apidocs',swaggerUiExpress.serve,  swaggerUiExpress.setup(specs))
 
 app.use(errorMiddleware);
 app.use(addLogger);
+app.use('/', routerIndex);
 app.use('/views',routerViews);
 app.use('/products', routerProducts)
 app.use('/carts', routerCarts)

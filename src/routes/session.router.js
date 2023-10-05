@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import { CurrentUserDTO } from "../controllers/dto/user.dto.js";
 import envConfig from "../config/env.config.js";
 import sessionsController from "../controllers/sessions.controller.js";
+import UserController from "../controllers/users.controller.js";
+
+const userController = new UserController()
 
 const router = Router();
 
@@ -34,6 +37,7 @@ router.post(
     let token = jwt.sign({ user }, envConfig.jwtKey, {
       expiresIn: "24h",
     });
+    await userController.updateConnectionController('login', user._id);
     res
       .cookie("coderCookie", token, { httpOnly: true })
       .send({ status: "success" });
@@ -52,9 +56,10 @@ router.get("/faillogin", async (req, res) => {
   res.redirect('/views/login?e=error');
 });
 
-router.get("/deleteCookie", (req, res) => {
+router.get("/deleteCookie", async (req, res) => {
   try{
     res.clearCookie(envConfig.cookieKey)
+    await userController.updateConnectionController('logout', req.query.id);
     res.redirect("/views/login");
   }catch(e){
     res.send({ status: "Logout ERROR", error: e });

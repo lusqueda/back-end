@@ -25,7 +25,9 @@ export default class UserController {
         return result;
     }
 
-
-
+    updateConnectionController = async (action, id) => {
+        const result = this.userService.updateConnectionService(action, id)
+        return result;
+    }
 
 }    

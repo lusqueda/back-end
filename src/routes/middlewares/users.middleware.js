@@ -19,3 +19,44 @@ export const usersMiddlewareAuth = async (req, res, next) => {
     }
 };
 
+export const usersDocuments = async (req, res, next) => {
+    let cuenta = 0;
+    let domicilio = 0;
+    let identificacion = 0;
+    let avatar = 0;
+
+    req.user.user.documents.forEach(element => {
+        if(element.name !== "identificacion"){
+            if(element.name !== "domicilio"){
+                if(element.name !== "cuenta"){
+                    avatar = 1;
+                }else{
+                    cuenta = 1;
+                }
+            }else{
+                domicilio = 1;
+            }
+        }else{
+            identificacion = 1;
+        }
+
+    });
+
+    let msg = '';
+    if(cuenta != 1){
+        msg = msg + ' Comprobante de estado de cuenta';
+    }
+
+    if(domicilio != 1){
+        msg += msg + ' Comprobante de domicilio';
+    }
+
+    if(identificacion == 0){
+        msg += msg + ' Identificacion';
+    }
+    if(msg == ''){
+        next()
+    }else{
+        res.status(402).send({error: `Falta subir la siguiente ducumentacion: ${msg}`  })
+    }
+};

@@ -23,7 +23,6 @@ export default class UserService {
     uploadFilesService = async (category, path, id) => {
         const user = await this.userDao.getUserById(id);
         let exist = 0;
-
         if(user != null){
             if(user.documents.length !== 0){
                 user.documents.map(element => {
@@ -45,6 +44,11 @@ export default class UserService {
         }
 
         return true;
+    }
+
+    updateConnectionService = async (action, id) => {
+        const result = await this.userDao.updateConnection(action, id)
+        return result;
     }
 
 }

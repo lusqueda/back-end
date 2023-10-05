@@ -41,7 +41,7 @@ const UsersSchema = new mongoose.Schema({
         ]
     },
     last_connection: {
-        type: Date
+        type: String
     }
 
 })

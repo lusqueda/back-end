@@ -1,4 +1,4 @@
-<div class="col-12 text-center">
+<div class="col-12 text-center mb-5 mt-5">
     <h1>Subir Archivos</h1>
     {{#if success}}
         <div class="alert alert-success" role="alert">
@@ -6,6 +6,7 @@
         </div>
     {{/if}}
 </div>    
+<div class="mx-auto">
     <div class="d-flex justify-content-center">
         <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
             <h4>Identificacion</h4>
@@ -37,5 +38,27 @@
             <input type="hidden" name="category" value="cuenta" />
             <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
         </form>
-        
     </div>
+    <div class="d-flex justify-content-center">
+        <form action="/api/users/products" method="post" class="col-md-3" enctype="multipart/form-data">
+            <h4>Imagen de Producto</h4>
+            <br/>
+            <div class="form-outline mb-4">
+                <input type="file" id="products" name="products" class="form-control" />
+            </div>
+            <input type="hidden" name="category" value="product" />
+            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+        </form>
+        <form action="/api/users/{{id}}/profiles" method="post" class="col-md-3" enctype="multipart/form-data">
+            <h4>Imagen de Perfil</h4>
+            <br/>
+            <div class="form-outline mb-4">
+                <input type="file" id="profiles" name="profiles" class="form-control" />
+            </div>
+            <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="category" value="avatar" />
+            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+        </form>
+    </div>
+    
+</div>

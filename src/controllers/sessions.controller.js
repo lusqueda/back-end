@@ -1,8 +1,10 @@
 import nodemailer from  "nodemailer";
-import UserService from "../services/users.services.js";
+import UserService from "../services/users.services.js"
 import { createHash } from "../utils.js";
 import jwt from "jsonwebtoken";
 import { compareSync } from "bcrypt";
+import { CurrentUserDTO } from "../controllers/dto/user.dto.js";
+
 
 const userService = new UserService();
 
@@ -60,9 +62,60 @@ const setPassword = async (req, res) => {
     } catch (error) {
         return res.status(404).send({status: "error", error: error.message})
     }
-}    
+}
 
- export default {
+const githubcallback = async (req, res) => {
+    console.log("exito");
+    req.session.user = req.user;
+    res.redirect("/views/products");
+}
+
+const deleteCookie = async (req, res) => {
+    try{
+      res.clearCookie(process.env.COOKIE_KEY)
+      await userService.updateConnectionService('logout', req.query.id);
+      res.redirect("/views/login");
+    }catch(e){
+      res.send({ status: "Logout ERROR", error: e });
+    }
+}
+
+const faillogin = async (req, res) => {
+    res.redirect('/views/login?e=error');
+}
+
+const current = (req,res) => {
+    res.send(new CurrentUserDTO(req.user));
+}
+
+const login = async (req, res) => {
+    let user = req.user;
+    let token = jwt.sign({ user }, process.env.JWT_KEY, {
+      expiresIn: "24h",
+    });
+    await userService.updateConnectionService('login', user._id);
+    res
+      .cookie(process.env.COOKIE_KEY, token, { httpOnly: true })
+      .send({ status: "success" });
+}
+
+const register = async (req, res) => {
+    res.send({ status: "success", message: "Usuario registrado" });
+}
+
+const failregister = async (req, res) => {
+    console.log("Estrategia fallida");
+    res.send({ error: "Fallido" });
+}
+
+export default {
     resetPassword,
-    setPassword
- }
+    setPassword,
+    githubcallback,
+    deleteCookie,
+    faillogin,
+    failregister,
+    current,
+    login,
+    register
+}

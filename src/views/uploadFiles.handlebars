@@ -1,64 +1,97 @@
-<div class="col-12 text-center mb-5 mt-5">
-    <h1>Subir Archivos</h1>
-    {{#if success}}
-        <div class="alert alert-success" role="alert">
-            {{success}}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">e-Commerce</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/views/products">Productos <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/profile?qty={{qty}}&cart={{cartId}}">Mis Datos</a>
+                </li>
+                {{#if isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/users?qty={{qty}}">Usuarios</a>
+                {{/if}}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/tickets">Mis Compras</a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="navbar-brand" href="/api/session/deleteCookie?id={{userId}}">LogOut</a>
+                </li>
+            </ul>
+            <a class="navbar-brand" href="/views/carts/{{cartId}}">
+                <button type="button" class="btn btn-primary">
+                    Cart <span class="badge badge-light">{{qty}}</span>
+                </button>
+            </a>
         </div>
-    {{/if}}
+    </nav>
+    <div class="col-12 text-center mb-5 mt-5">
+        {{#if success}}
+            <div class="alert alert-success" role="alert">
+                {{success}}
+            </div>
+        {{/if}}
+    </div>    
+    <div class="">
+        <div class="d-flex justify-content-center">
+            <form action="/api/users/{{userId}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+                <h4>Identificacion</h4>
+                <br/>
+                <div class="form-outline mb-4">
+                    <input type="file" id="documents" name="documents" class="form-control" required />
+                </div>
+                <input type="hidden" name="id" value="{{userId}}"/>
+                <input type="hidden" name="category" value="identificacion" />
+                <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+            </form>
+            <form action="/api/users/{{userId}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+                <h4>Comprobante de domicilio</h4>
+                <br/>
+                <div class="form-outline mb-4">
+                    <input type="file" id="documents" name="documents" class="form-control" required />
+                </div>
+                <input type="hidden" name="id" value="{{userId}}"/>
+                <input type="hidden" name="category" value="domicilio" />
+                <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+            </form>
+            <form action="/api/users/{{userId}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
+                <h4>Comprobante de estado de cuenta</h4>
+                <br/>
+                <div class="form-outline mb-4">
+                    <input type="file" id="documents" name="documents" class="form-control" required />
+                </div>
+                <input type="hidden" name="id" value="{{userId}}"/>
+                <input type="hidden" name="category" value="cuenta" />
+                <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+            </form>
+        </div>
+        <div class="d-flex justify-content-center">
+            <form action="/api/users/products" method="post" class="col-md-3" enctype="multipart/form-data">
+                <h4>Imagen de Producto</h4>
+                <br/>
+                <div class="form-outline mb-4">
+                    <input type="file" id="products" name="products" class="form-control" required />
+                </div>
+                <input type="hidden" name="category" value="product" />
+                <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+            </form>
+            <form action="/api/users/{{userId}}/profiles" method="post" class="col-md-3" enctype="multipart/form-data">
+                <h4>Imagen de Perfil</h4>
+                <br/>
+                <div class="form-outline mb-4">
+                    <input type="file" id="profiles" name="profiles" class="form-control" required  />
+                </div>
+                <input type="hidden" name="id" value="{{userId}}"/>
+                <input type="hidden" name="category" value="avatar" />
+                <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
+            </form>
+        </div>
+    </div>
 </div>    
-<div class="mx-auto">
-    <div class="d-flex justify-content-center">
-        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
-            <h4>Identificacion</h4>
-            <br/>
-            <div class="form-outline mb-4">
-                <input type="file" id="documents" name="documents" class="form-control" />
-            </div>
-            <input type="hidden" name="id" value="{{id}}"/>
-            <input type="hidden" name="category" value="identificacion" />
-            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
-        </form>
-        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
-            <h4>Comprobante de domicilio</h4>
-            <br/>
-            <div class="form-outline mb-4">
-                <input type="file" id="documents" name="documents" class="form-control" />
-            </div>
-            <input type="hidden" name="id" value="{{id}}"/>
-            <input type="hidden" name="category" value="domicilio" />
-            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
-        </form>
-        <form action="/api/users/{{id}}/documents" method="post" class="col-md-3" enctype="multipart/form-data">
-            <h4>Comprobante de estado de cuenta</h4>
-            <br/>
-            <div class="form-outline mb-4">
-                <input type="file" id="documents" name="documents" class="form-control" />
-            </div>
-            <input type="hidden" name="id" value="{{id}}"/>
-            <input type="hidden" name="category" value="cuenta" />
-            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
-        </form>
-    </div>
-    <div class="d-flex justify-content-center">
-        <form action="/api/users/products" method="post" class="col-md-3" enctype="multipart/form-data">
-            <h4>Imagen de Producto</h4>
-            <br/>
-            <div class="form-outline mb-4">
-                <input type="file" id="products" name="products" class="form-control" />
-            </div>
-            <input type="hidden" name="category" value="product" />
-            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
-        </form>
-        <form action="/api/users/{{id}}/profiles" method="post" class="col-md-3" enctype="multipart/form-data">
-            <h4>Imagen de Perfil</h4>
-            <br/>
-            <div class="form-outline mb-4">
-                <input type="file" id="profiles" name="profiles" class="form-control" />
-            </div>
-            <input type="hidden" name="id" value="{{id}}"/>
-            <input type="hidden" name="category" value="avatar" />
-            <button type="submit" class="btn btn-primary btn-block mb-4">Subir</button>
-        </form>
-    </div>
-    
-</div>
+<script src="/js/utils.js"></script>

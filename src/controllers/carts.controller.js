@@ -25,6 +25,11 @@ export default class CartController {
         return result;
     }
 
+    paginateCartsController = async (cid, uid, qty) => {
+        const result = this.cartService.paginateCartsService(cid, uid, qty)
+        return result;
+    } 
+
     addProductToCartController = async (cid, pid) => {
         const result = await this.cartService. addProductToCartService(cid, pid)
         return result;

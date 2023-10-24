@@ -1,0 +1,72 @@
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">e-Commerce</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/views/products">Productos <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/profile?qty={{qty}}&cart={{cart}}">Mis Datos</a>
+                </li>
+                {{#if isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/users?qty={{qty}}">Usuarios</a>
+                {{/if}}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/tickets">Mis Compras</a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="navbar-brand" href="/api/session/deleteCookie?id={{userId}}">LogOut</a>
+                </li>
+            </ul>
+            <a class="navbar-brand" href="/views/carts/{{cart}}">
+                <button type="button" class="btn btn-primary">
+                    Cart <span class="badge badge-light">{{qty}}</span>
+                </button>
+            </a>
+        </div>
+    </nav>
+    <div class="d-flex justify-content-center mt-5">
+        <form id="createProductForm" class="col-md-6" >
+            <div class="form-outline mb-4">
+                <label class="form-label" for="title">Nombre</label>
+                <input type="text" id="title" name="title" class="form-control" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="description">Descripcion</label>
+                <input type="text" id="description" name="description" class="form-control" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="category">Categoria</label>
+                <select name="category" id="category" class="form-control" aria-label="Default select example" required>
+                    <option value="alimentos" selected>Alimentos</option>
+                    <option value="bebidas">Bebidas</option>
+                    <option value="snacks">Snacks</option>
+                </select>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" class="form-control" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="price">Precio</label>
+                <input type="number" id="price" name="price" class="form-control" required/>
+            </div>
+       
+            <button type="submit" class="btn btn-primary btn-block mb-4">Crear</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/createProduct.js"></script>
+<script src="/js/utils.js"></script>

@@ -48,15 +48,16 @@ export const usersDocuments = async (req, res, next) => {
     }
 
     if(domicilio != 1){
-        msg += msg + ' Comprobante de domicilio';
+        msg = msg + ' Comprobante de domicilio';
     }
 
     if(identificacion == 0){
-        msg += msg + ' Identificacion';
+        msg = msg + ' Identificacion';
     }
     if(msg == ''){
         next()
     }else{
-        res.status(402).send({error: `Falta subir la siguiente ducumentacion: ${msg}`  })
+        const error = `Falta subir la siguiente ducumentacion: ${msg}`;
+        res.status(402).redirect(`/views/users?e=${error}`);
     }
 };

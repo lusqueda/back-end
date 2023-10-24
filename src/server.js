@@ -13,6 +13,7 @@ import routerUsers from "./routes/users.router.js";
 import routerMocking from "./routes/mocking.router.js";
 import routerLogger from "./routes/logger.router.js";
 import routerIndex from "./routes/index.router.js";
+import routerTickets from "./routes/tickets.router.js";
 
 import ProductManager from "./daos/mongodb/ProductManager.js";
 import {Server} from 'socket.io';
@@ -77,6 +78,7 @@ app.use(addLogger);
 app.use('/', routerIndex);
 app.use('/views',routerViews);
 app.use('/products', routerProducts)
+app.use('/tickets', routerTickets)
 app.use('/carts', routerCarts)
 app.use('/api/session', routerSession)
 app.use('/api/users', routerUsers)

@@ -36,7 +36,8 @@ router.post("/:cid/product/:pid",
         const cart = req.params.cid;
         const product = req.params.pid;
         await cartController.addProductToCartController(cart,product);
-        res.send({ status: 'Se agrego un producto al carrito' });
+        const msg = 'Se agrego un producto al carrito.'
+        res.redirect(`/views/products?success=${msg}`);
 })
 
 router.put("/:cid", 
@@ -62,15 +63,15 @@ router.put("/:cid/product/:pid",
         res.send({ status: 'Se actualizo la cantidad del producto' });
 })
 
-router.delete("/:cid/product/:pid", 
+router.get("/:cid/product/:pid", 
     passport.authenticate('jwt', {session:false}), 
     verifyCartId, 
     async (req,res)=>{
         const cart = req.params.cid;
         const product = req.params.pid;
         await cartController.deleteProductFromCartController(cart,product);
-        res.send({ status: 'Se elimino un producto del carrito' });
-
+        const msg = 'Se elimino un producto del carrito.'
+        res.redirect(`/views/carts/${cart}?success=${msg}`);
 })
 
 router.delete("/:cid",
@@ -87,8 +88,9 @@ router.post("/:cid/purchase",
     verifyCartId, 
     async (req,res)=>{
         const cart = req.params.cid;
-        const result = await cartController.purchaseCartController(cart,req.user)
-        res.send({ status: 'Compra Finalizada', ticket: result });
+        await cartController.purchaseCartController(cart,req.user)
+        const msg = 'Se realizo la compra con exito.';
+        res.redirect(`/views/carts/${cart}?success=${msg}`);
     }
 )
 

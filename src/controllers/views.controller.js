@@ -1,3 +1,6 @@
+import UserController from "./users.controller.js";
+
+const userController = new UserController()
 
 export default class ViewsController 
 {
@@ -10,7 +13,25 @@ export default class ViewsController
     }
 
     documents = async (req, res) => {
-        console.log(req.user.user._id)
-        res.render('uploadFiles', { id: req.user.user._id});   
+        let page = parseInt(req.query.page);
+        let email = req.user.user.email;
+        const result = await userController.paginateUsersController(page, email);
+        res.render('uploadFiles', result);   
+    }
+
+    paginateUsers = async (req,res) => {
+        let page = parseInt(req.query.page);
+        let email = req.user.user.email;
+        const result = await userController.paginateUsersController(page, email);
+        result['error'] = req.query.e;
+        result['success'] = req.query.msg;
+        res.render('users', result);   
+    }
+
+    profile = async (req,res) => {
+        let page = parseInt(req.query.page);
+        let email = req.user.user.email;
+        const result = await userController.paginateUsersController(page, email);
+        res.render('profile', result);
     }
 }

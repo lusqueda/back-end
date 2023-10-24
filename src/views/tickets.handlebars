@@ -58,11 +58,11 @@
                         <td>{{status}}</td>
                         <td>{{amount}}</td>
                         <td>
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal{{_id}}">
                                 Products
                             </button>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -82,8 +82,8 @@
                                                 </thead>
                                                 <tbody>
                                                 {{#each products}}
-                                                    <tr id={{_id}}>
-                                                        <td>{{title}}</td>
+                                                    <tr>
+                                                        <td>{{this.title}}</td>
                                                         <td>{{qty}}</td>
                                                         <td>{{unit_price}}</td>
                                                     </tr>    
@@ -118,7 +118,7 @@
         </div>
         <br/>    
     {{else}}
-        <h2><span class="badge badge-danger">  CARRITO VACIO</span></h2>
+        <h2><span class="badge badge-danger">CARRITO VACIO</span></h2>
     {{/if}}     
     </div>
 </div>

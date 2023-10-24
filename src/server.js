@@ -28,10 +28,10 @@ import { errorMiddleware } from "./services/error/middleware/error.middleware.js
 import { addLogger } from "./utils/logger.js";
 
 const app = express()
-
 const connection = mongoose.connect(envConfig.mongoUrl);
+const PORT = envConfig.port || 8080;
 
-const httpServer = app.listen(envConfig.port, ()=>{console.log('Servidor Online')});
+const httpServer = app.listen(PORT, ()=>{console.log('Servidor Online')});
 const socketServer = new Server(httpServer);
 const productManager = new ProductManager();
 
@@ -60,18 +60,6 @@ const swaggerOptions = {
 }
 const specs = swaggerJsdoc(swaggerOptions)
 app.use('/apidocs',swaggerUiExpress.serve,  swaggerUiExpress.setup(specs))
-
-/*app.use(
-    session({
-      store: new MongoStore({
-        mongoUrl:
-          "mongodb+srv://CoderUser:CoderPassword@codercluster.z7uinu4.mongodb.net/?retryWrites=true&w=majority",
-      }),
-      secret: "mongoSecret",
-      resave: true,
-      saveUninitialized: false,
-    })
-  );*/
 
 app.use(errorMiddleware);
 app.use(addLogger);

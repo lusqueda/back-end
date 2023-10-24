@@ -37,10 +37,13 @@ export default class TicketManager {
         cart.products.forEach(element => {
             result.qty += element.qty;
         });
-        for (let index = 0; index < result.docs[0].products.length; index++) {
-            const element = result.docs[0].products[index];
-            const item = await productsModel.findOne({_id: element.product})
-            element.title = item.title
+        for (let index = 0; index < result.docs.length; index++) {
+            const element = result.docs[index];
+            for (let indexs = 0; indexs < element.products.length; indexs++) {
+                const elements = element.products[indexs]
+                const item = await productsModel.findOne({_id: elements.product})
+                elements.title = item.title
+            }
         }
 
         return result;

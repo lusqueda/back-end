@@ -51,7 +51,7 @@ const initializePassport = () => {
         }
     }))   
 
-    passport.use(
+  /*  passport.use(
         'github', 
         new GithubStrategy({
             clientID: envConfig.ghId, 
@@ -75,7 +75,7 @@ const initializePassport = () => {
           done(null, false);
         }
         })
-    );
+    );*/
 
     passport.serializeUser((user,done) => {
         done(null,user._id);

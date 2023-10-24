@@ -26,8 +26,8 @@ export default class TicketManager {
         let cart = await cartModel.findOne({_id: user[0].cart}).lean();
         let result = await ticketsModel.paginate({purchaser: user[0]._id},{page,limit:5,lean:true})
         result.user = user
-        result.prevLink = result.hasPrevPage?`http://localhost:8080/views/tickets?page=${result.prevPage}`:'';
-        result.nextLink = result.hasNextPage?`http://localhost:8080/views/tickets?page=${result.nextPage}`:'';
+        result.prevLink = result.hasPrevPage?`/views/tickets?page=${result.prevPage}`:'';
+        result.nextLink = result.hasNextPage?`/views/tickets?page=${result.nextPage}`:'';
         result.isValid = !(page <= 0 || page > result.totalPages)
         result.isAuth = !(result.user == null)
         result.isAdmin = !(result.user[0].role != 'admin');

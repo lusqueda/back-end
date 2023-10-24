@@ -74,14 +74,14 @@
                         <td>{{this.role}}</td>
                         <td>{{this.last_connection}}</td>
                         <td>
-                            <form action="http://localhost:8080/api/users/delete/{{this._id}}" method="post"><button class="btn btn-danger" type="submit">Delete</button></form>
+                            <form action="/api/users/delete/{{this._id}}" method="post"><button class="btn btn-danger" type="submit">Delete</button></form>
                             {{#if this.admin}}
                                 
                             {{else}}
                                 {{#if this.premiun}}
-                                    <form action="http://localhost:8080/api/users/user/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change User</button></form>
+                                    <form action="/api/users/user/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change User</button></form>
                                 {{else}}
-                                    <form action="http://localhost:8080/api/users/premiun/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change Premiun</button></form>
+                                    <form action="/api/users/premiun/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change Premiun</button></form>
                                 {{/if}}
                             {{/if}}        
                         </td>     

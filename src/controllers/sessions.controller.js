@@ -33,7 +33,7 @@ const resetPassword = async (req, res) => {
             html: `
             <div style='color:blue'>
                 <h1>Restaura tu password haciendo click en el siguiente link</h1>
-                <a href='http://localhost:8080/setPassword?token=${token}&email=${email}'>Click Aqui</a>
+                <a href='/setPassword?token=${token}&email=${email}'>Click Aqui</a>
             </div>`,
         })
 

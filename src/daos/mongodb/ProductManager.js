@@ -48,8 +48,8 @@ export default class ProductManager {
         let user = await userModel.find({email: email}).lean();
         let cart = await cartModel.findOne({_id: user[0].cart}).lean();
         result.user = user
-        result.prevLink = result.hasPrevPage?`http://localhost:8080/views/products?page=${result.prevPage}`:'';
-        result.nextLink = result.hasNextPage?`http://localhost:8080/views/products?page=${result.nextPage}`:'';
+        result.prevLink = result.hasPrevPage?`/views/products?page=${result.prevPage}`:'';
+        result.nextLink = result.hasNextPage?`/views/products?page=${result.nextPage}`:'';
         result.isValid = !(page <= 0 || page > result.totalPages)
         result.isAuth = !(result.user == null)
         result.isAdmin = !(result.user[0].role != 'admin');

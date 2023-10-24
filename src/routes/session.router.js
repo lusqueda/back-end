@@ -34,12 +34,12 @@ router.post(
   }),
   async (req, res) => {
     let user = req.user;
-    let token = jwt.sign({ user }, JWT_KEY, {
+    let token = jwt.sign({ user }, process.env.JWT_KEY, {
       expiresIn: "24h",
     });
     await userController.updateConnectionController('login', user._id);
     res
-      .cookie(COOKIE_KEY, token, { httpOnly: true })
+      .cookie(process.env.COOKIE_KEY, token, { httpOnly: true })
       .send({ status: "success" });
   }
 );
@@ -58,7 +58,7 @@ router.get("/faillogin", async (req, res) => {
 
 router.get("/deleteCookie", async (req, res) => {
   try{
-    res.clearCookie(COOKIE_KEY)
+    res.clearCookie(process.env.COOKIE_KEY)
     await userController.updateConnectionController('logout', req.query.id);
     res.redirect("/views/login");
   }catch(e){

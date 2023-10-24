@@ -28,8 +28,8 @@ import { errorMiddleware } from "./services/error/middleware/error.middleware.js
 import { addLogger } from "./utils/logger.js";
 
 const app = express()
-const connection = mongoose.connect(envConfig.mongoUrl);
-const PORT = envConfig.port || 8080;
+const connection = mongoose.connect(process.env.MONGO_URL);
+const PORT = process.env.PORT || 8080;
 
 const httpServer = app.listen(PORT, ()=>{console.log('Servidor Online')});
 const socketServer = new Server(httpServer);

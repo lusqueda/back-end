@@ -39,21 +39,11 @@ router.get("/:pid",
 router.post("/", 
     passport.authenticate('jwt',{session: false}),
     rolesMiddlewarePremiun,
-    async (req,res, next)=>{
+    async (req,res)=>{
         const product = req.body;
         product.owner = req.user.user.email;
         if(!product.title || !product.description || !product.category || !product.price || !product.stock){
-           /** try {
-                CustomError.createError({
-                    name: "Product creation error",
-                    cause: generateErrorInfo(product),
-                    message: "Error trying to create product",
-                    code: ErrorEnum.INVALID_TYPES_ERROR
-                })
-            } catch (error) {
-                next(error);
-            };**/
-            res.status(403).send({ status: 'Ingresar todos los campos obligatorios' });    
+             res.status(403).send({ status: 'Ingresar todos los campos obligatorios' });    
         }else{
             await productController.addProductContoller(product)
             res.send({ status: 'Se agrego un nuevo producto' });

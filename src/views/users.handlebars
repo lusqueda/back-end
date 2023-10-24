@@ -33,50 +33,58 @@
         </div>
     </nav>
     <br/>
-    {{#if this.success}}
-    <div class="alert alert-success auto-close" role="alert">
-       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-       {{this.success}}
-    </div>
-    {{/if}}
     {{#if this.error}}
     <div class="alert alert-danger auto-close" role="alert">
        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
        {{this.error}}
     </div>
     {{/if}}
+    {{#if this.success}}
+    <div class="alert alert-success auto-close" role="alert">
+       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+       {{this.success}}
+    </div>
+    {{/if}}
     {{#if isValid}}
         {{#if isAdmin}}
-        <div class="col-sm-2 ml-0"> 
-            <a href="/views/product"><button class="btn btn-success btn-block mb-2">Create </button></a>
-        </div>        
-        {{/if}}
-        {{#if isPremiun}}
-        <div class="col-sm-2 ml-0"> 
-            <a href="/views/product"><button class="btn btn-success btn-block mb-2">Create </button></a>
-        </div>        
+           <div class="mb-2">   
+              <form id="delUsersForm"><button class="btn btn-danger" type="submit">Delete Inactives</button></form>
+           </div>               
         {{/if}}
         <div class="table-responsive" >
             <table class="table table-striped table-bordered bulk_action">
                 <thead>
                     <tr>
-                        <th scope="col">Producto</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Accion</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Edad</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Actividad</th>
+                        <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
                 {{#each docs}}
                     <tr id={{this._id}}>
-                        <td>{{this.title}}</td>
-                        <td>{{this.description}}</td>
-                        <td>{{this.code}}</td>
-                        <td>{{this.category}}</td>
-                        <td>{{this.price}}</td>
-                        <td><form action="/carts/{{this.cart}}/product/{{this._id}}" method="post"><button class="btn btn-primary" type="submit">Add Cart</button></form></td>     
+                        <td>{{this.first_name}}</td>
+                        <td>{{this.last_name}}</td>
+                        <td>{{this.age}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.role}}</td>
+                        <td>{{this.last_connection}}</td>
+                        <td>
+                            <form action="http://localhost:8080/api/users/delete/{{this._id}}" method="post"><button class="btn btn-danger" type="submit">Delete</button></form>
+                            {{#if this.admin}}
+                                
+                            {{else}}
+                                {{#if this.premiun}}
+                                    <form action="http://localhost:8080/api/users/user/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change User</button></form>
+                                {{else}}
+                                    <form action="http://localhost:8080/api/users/premiun/{{this._id}}" method="post"><button class="btn btn-warning" type="submit">Change Premiun</button></form>
+                                {{/if}}
+                            {{/if}}        
+                        </td>     
                     </tr>
                 {{/each}}
                     <tr>
@@ -104,4 +112,6 @@
         <a href="/views/login"><button>Log In</button></a>
 {{/if}}    
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/utils.js"></script>
+<script src="/js/deleteUsers.js"></script>

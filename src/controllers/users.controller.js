@@ -15,6 +15,26 @@ export default class UserController {
         return result;
     } 
 
+    deleteInactiveController = async () => {
+        const result = this.userService.deleteInactiveService()
+        return result;
+    } 
+
+    deleteUserController = async (id) => {
+        const result = this.userService.deleteUserService(id)
+        return result;
+    } 
+
+    paginateUsersController = async (page, email) => {
+        const result = this.userService.paginateUsersService(page, email)
+        return result;
+    } 
+
+    getUsersController = async () => {
+        const result = this.userService.getUsersService()
+        return result;
+    } 
+
     changeRoleController = async (id, role) => {
         const result = this.userService.changeRoleService(id, role)
         return result;

@@ -1,14 +1,9 @@
-import mongoose from "mongoose";
 import { productsModel } from "./models/products.model.js";
+import { cartModel } from "./models/carts.model.js";
 import { userModel } from "./models/users.model.js";
-import envConfig from "../../config/env.config.js";
 import { generateProducts } from "../../utils.js";
 
 export default class ProductManager {
-
-//    connection = mongoose.connect(
-//        envConfig.mongoUrl
-//    );
 
     addProduct = async (product) => {    
         let result = await productsModel.create(product)
@@ -51,14 +46,23 @@ export default class ProductManager {
         if(!page) page=1;
         let result = await productsModel.paginate({},{page,limit:5,lean:true})
         let user = await userModel.find({email: email}).lean();
+        let cart = await cartModel.findOne({_id: user[0].cart}).lean();
         result.user = user
-        result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}`:'';
-        result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}`:'';
+        result.prevLink = result.hasPrevPage?`http://localhost:8080/views/products?page=${result.prevPage}`:'';
+        result.nextLink = result.hasNextPage?`http://localhost:8080/views/products?page=${result.nextPage}`:'';
         result.isValid = !(page <= 0 || page > result.totalPages)
         result.isAuth = !(result.user == null)
         result.isAdmin = !(result.user[0].role != 'admin');
+        result.isPremiun = !(result.user[0].role != 'premiun');
         result.cart = result.user[0].cart;
+        result.qty = 0;
+        cart.products.forEach(element => {
+            result.qty += element.qty;
+        });
         result.userId = result.user[0]._id;
+        result.docs.forEach(element => {
+            element['cart'] = result.user[0].cart;
+        });
         return result;
     }
 

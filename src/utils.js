@@ -3,6 +3,7 @@ import { dirname } from 'path';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import multer from "multer";
+import nodemailer from "nodemailer";
 
 
 export const createHash = (password) => {
@@ -26,6 +27,7 @@ export const generateProducts = () => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export default __dirname;
 
 const storage = multer.diskStorage({
     destination: function(req,file,cb){
@@ -44,4 +46,26 @@ export const uploader = multer({
     }
 })
 
-export default __dirname;
+const transport = nodemailer.createTransport({
+    service: "gmail",
+    port: 587,
+    auth: {
+        user: "clase30coderhouse@gmail.com",
+        pass: "cjhlgutomdctqdhd",
+    },
+});  
+
+export const emailDelete = async (email) => {
+    await transport.sendMail({
+        from: "hlusqueda@gmail.com",
+        to: email,
+        subject: "Correo Informativo",
+        html: `
+        <div style='color:blue'>
+            <h1>Cuenta Eliminada</h1>
+            <p>Tu cuenta con el email: ${email}, registrado en nuestro e-commerce ha sido eliminada por inactividad.</p>
+            <p>Saludos</p>
+        </div>`,
+    })
+
+}

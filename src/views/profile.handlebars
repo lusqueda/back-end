@@ -1,7 +1,72 @@
-<div>
-    <h1>Tu perfil (sin datos sensibles)</h1>
-    <p>{{user.name}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.age}}</p>
-    <a href="/login"><button>Salir</button></a>
-</div>
+{{#if isAuth}}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">e-Commerce</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/views/products">Productos  <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/profile?qty={{qty}}&cart={{cart}}">Mis Datos</a>
+                </li>
+                {{#if isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/users?qty={{qty}}">Usuarios</a>
+                {{/if}}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/tickets">Mis Compras</a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="navbar-brand" href="/api/session/deleteCookie?id={{userId}}">LogOut</a>
+                </li>
+            </ul>
+            <a class="navbar-brand" href="/views/carts/{{cart}}">
+                <button type="button" class="btn btn-primary">
+                    Cart <span class="badge badge-light">{{qty}}</span>
+                </button>
+            </a>
+        </div>
+    </nav>
+    <div class="d-flex row">
+        <div class="m-5">
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header"><h3>Mis Datos</h3></div>
+                {{#each user}}
+                  <div class="card-body">
+                    <p class="card-text">Nombre: {{this.first_name}}</p>
+                    <p class="card-text">Apellido: {{this.last_name}}</p>
+                    <p class="card-text">Edad: {{this.age}}</p>
+                    <p class="card-text">E-Mail: {{this.email}}</p>
+                  </div>
+                  <div class="card-footer">Perfil: {{this.role}}</div>
+                {{/each}}    
+            </div>
+        </div>
+
+        <div class="m-5">
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header"><h3>Documentacion</h3></div>
+                <div class="card-body">
+                    {{#each user}}
+                        {{#each this.documents}}
+                            <p class="card-text">Subida {{this.name}}</p>
+                        {{/each}}    
+                    {{/each}}    
+                </div>
+                <div class="card-footer"></div>
+            </div>
+            <a href="/views/documents"><button class="btn btn-primary btn-block mb-4">Upload files <i class="bi bi-github"></i></button></a>
+        </div>
+    </div>
+
+{{else}}
+        <h1>No esta autorizado</h1>
+        <a href="/views/login"><button>Log In</button></a>
+{{/if}}       
+</div>   
+<script src="/js/utils.js"></script>

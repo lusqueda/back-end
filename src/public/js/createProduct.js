@@ -1,11 +1,11 @@
-const form = document.getElementById('registerForm');
+const form = document.getElementById('createProductForm');
 
 form.addEventListener('submit',e=>{
     e.preventDefault();
     const data = new FormData(form);
     const obj = {};
     data.forEach((value,key)=>obj[key]=value);
-    fetch('/api/session/register',{
+    fetch('/products',{
         method:'POST',
         body:JSON.stringify(obj),
         headers:{
@@ -13,8 +13,8 @@ form.addEventListener('submit',e=>{
         }
     }).then(result=>{
         if(result.status===200){
-            const success = `Se registro el usuario.`;
-            window.location.replace(`/views/login?msg=${success}`);
+            const success = `Se creo un nuevo producto.`;
+            window.location.replace(`/views/products?success=${success}`);
         }
     })
 })

@@ -27,6 +27,11 @@ export default class CartService {
         return result;
     }
 
+    paginateCartsService = async (cid, uid, qty) => {
+        const result = await this.cartDao.paginateCarts(cid, uid, qty)
+        return result;
+    }
+
     addProductToCartService = async (cid, pid) => {
         const product = await this.productDao.getProductById(pid);
         const cart = await this.getCartByIdService(cid);
@@ -82,7 +87,7 @@ export default class CartService {
     deleteProductFromCartService = async (cid, pid) => {
         const cart = await this.getCartByIdService(cid);
         cart.products.pull(pid);
-        await this.cartDao.deleteProductFromCart(cart)
+        this.cartDao.deleteProductFromCart(cart)
         return ;
     }
 
@@ -91,6 +96,11 @@ export default class CartService {
         cart.products = [];
         await this.cartDao.deleteProductFromCart(cart)
         return;
+    }
+
+    deleteCartByIdService = async (id) => {
+        const result = await this.userDao.deleteUserById(id)
+        return result;
     }
 
     purchaseCartService = async (cid, user) => {
@@ -111,7 +121,7 @@ export default class CartService {
             products.map(elements => {
                 if(element.product == elements.id){
                     if(elements.stock >= element.qty){
-                        amount = parseInt(elements.price) + amount;
+                        amount = (parseInt(elements.price)*element.qty) + amount;
                         productsSale.push({ product: elements.id, qty: element.qty, unit_price: elements.price })
                         productsToErase.push({id: element._id})
                     }
@@ -119,9 +129,11 @@ export default class CartService {
             });
         });
 
-        productsToErase.forEach(async element => {
-            await this.deleteProductFromCartService(cid, element.id);
+
+        productsToErase.forEach(element => {
+            cart.products.pull(element.id);
         })
+        this.cartDao.deleteProductFromCart(cart);
 
         if(amount != 0){
             ticket.status = 'compra finalizada'
@@ -131,7 +143,7 @@ export default class CartService {
 
         ticket.amount = amount;
         ticket.products = productsSale;
-        ticket.purchaser = user.user.email
+        ticket.purchaser = user.user._id
         await this.cartDao.purchaseCart(ticket)
 
         return ticket;

@@ -5,26 +5,26 @@ export default class TicketController {
         this.ticketService = new TicketService()   
     }
 
-    getTicketByIdController = async(id) => {
-        const result = await this.ticketService.getTicketByIdService(id)
-        return result;
+    getTicketByIdController = async(req,res)=>{
+        const id = req.params.tid;
+        const ticket = await this.ticketService.getTicketByIdService(id)
+        res.send({ status: 'Ticket encontrado', ticket: ticket });
     }
 
-    getTicketByIdLeanController = async(id) => {
-        const result = await this.ticketService.getTicketByIdLeanService(id)
-        return result;
+    getTicketByIdLeanController = async (req,res)=>{ 
+        const id = req.params.uid;
+        const tickets = await this.ticketService.getTicketByIdLeanService(id);
+        res.send(tickets);
     }
-
-    getTicketsController = async() => {
-        const result = await this.ticketService.getTicketsService()
-        return result;
+   
+    getTicketsController = async (req,res)=>{ 
+        const tickets = await this.ticketService.getTicketsService();
+        res.send(tickets)
     }
-
+    
     paginateTicketsController = async (page, email) => {
         const result = this.ticketService.paginateTicketsService(page, email)
         return result;
-    } 
-
-   
+    }   
 
 }

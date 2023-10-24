@@ -68,6 +68,11 @@ export default class UserManager {
         return result;
     }
 
+    getUserByIdLean = async (id) => {
+        let result = await userModel.findOne({_id:id}).lean();
+        return result;
+    }
+
     changeRole = async (id, role) => {
         console.log(id+'-'+role)
         let result = await userModel.updateOne(

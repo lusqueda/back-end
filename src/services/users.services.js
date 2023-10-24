@@ -18,6 +18,17 @@ export default class UserService {
         return result;
     }
 
+    getUserByIdService = async (id) => {
+        const result = await this.userDao.getUserById(id)
+        return result;
+
+    }
+
+    getUserByIdLeanService = async (id) => {
+        const result = await this.userDao.getUserByIdLean(id)
+        return result;
+    }
+
     getUsersService = async () => {
         const result = await this.userDao.getUsers()
         return result;

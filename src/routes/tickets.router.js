@@ -8,25 +8,17 @@ const ticketController = new TicketController()
 
 router.get("/",
     passport.authenticate('jwt',{session: false}),
-    async (req,res)=>{ 
-        const tickets = await ticketController.getTicketsController();
-        res.send(tickets)
-})
+    ticketController.getTicketsController
+);
 
 router.get("/user/:uid",
     passport.authenticate('jwt',{session: false}),
-    async (req,res)=>{ 
-        const id = req.params.uid;
-        const tickets = await ticketController.paginateTicketsController(id);
-        res.render('tickets',tickets);
-})
+    ticketController.getTicketByIdLeanController
+);
 
 router.get("/:tid", 
     passport.authenticate('jwt',{session: false}),
-    async(req,res)=>{
-        const id = req.params.tid;
-        const ticket = await ticketController.getTicketByIdController(id)
-        res.send({ status: 'Ticket encontrado', ticket: ticket });
-})
+    ticketController.getTicketByIdController
+);
 
 export default router;

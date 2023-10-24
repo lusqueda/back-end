@@ -28,7 +28,7 @@ export default class TicketManager {
         result.user = user
         result.prevLink = result.hasPrevPage?`/views/tickets?page=${result.prevPage}`:'';
         result.nextLink = result.hasNextPage?`/views/tickets?page=${result.nextPage}`:'';
-        result.isValid = !(page <= 0 || page > result.totalPages)
+        result.isValid = !(result.totalDocs == 0)
         result.isAuth = !(result.user == null)
         result.isAdmin = !(result.user[0].role != 'admin');
         result.userId = result.user[0]._id;

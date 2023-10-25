@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mt-3">
     <form id="loginForm" class="col-md-3" >
         {{#if this.error}}
             <div class="alert alert-danger auto-close" role="alert">
@@ -7,7 +7,7 @@
             </div>            
         {{/if}}
         {{#if this.success}}
-            <div class="alert alert-danger auto-close" role="alert">
+            <div class="alert alert-success auto-close" role="alert">
                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 {{this.success}}           
             </div>            

@@ -14,7 +14,7 @@ form.addEventListener('submit',e=>{
     }).then(result=>{
         if(result.status===200){
             const success = `Se registro el usuario.`;
-            window.location.replace(`/views/login?msg=${success}`);
+            window.location.replace(`/views/login?success=${success}`);
         }
     })
 })

@@ -57,7 +57,7 @@ export default class ViewsController
     }
 
     login = (req, res) => {
-        res.render('login', { error: req.query.e, success: req.params.msg });
+        res.render('login', { error: req.query.e, success: req.query.success });
     }
 
     resetPassword = async (req, res) => {

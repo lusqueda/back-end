@@ -1,6 +1,8 @@
 import ProductService from "../../services/products.services.js";
+import UserService from "../../services/users.services.js";
 
 const productService = new ProductService();
+const userService = new UserService();
 
 export const usersMiddlewareAuth = async (req, res, next) => {
     if(req.user.user.role === "admin"){
@@ -26,7 +28,8 @@ export const usersDocuments = async (req, res, next) => {
     let identificacion = 0;
     let avatar = 0;
 
-    req.user.user.documents.forEach(element => {
+    const user = await userService.getUserByIdService(req.params.uid);
+    user.documents.forEach(element => {
         if(element.name !== "identificacion"){
             if(element.name !== "domicilio"){
                 if(element.name !== "cuenta"){

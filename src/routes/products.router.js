@@ -1,15 +1,18 @@
 import { Router } from "express";
 import passport from "passport";
 import ProductController from "../controllers/products.controller.js";
+import UserService from "../services/users.services.js";
 import { rolesMiddlewarePremiun } from "./middlewares/roles.middleware.js";
 import { usersMiddlewareAuth } from "./middlewares/users.middleware.js";
 import { verifyProductId } from "./middlewares/products.middleware.js";
+import { emailDeleteProduct } from "../utils.js";
 import CustomError from "../services/error/custom.class.js";
 import { ErrorEnum } from "../services/error/enum.dictionary.js";
 import { generateErrorInfo } from "../services/error/info.messages.js";
 
 const router = Router();
 const productController = new ProductController()
+const userService = new UserService()
 
 router.get("/", async(req,res) => {
     let limit = Number(req.query.limit)
@@ -68,6 +71,9 @@ router.get("/delete/:pid",
     usersMiddlewareAuth,
     async (req,res)=>{
         const id = req.params.pid;
+        const product = await productController.getProductByIdContoller(id)
+        const user = await userService.getUserService(product.owner)
+        user.role === 'premiun' ? emailDeleteProduct(product.owner, product.title) : null;
         await productController.deleteProductController(id);
         const error = `Se elimino el producto.`;
         res.redirect(`/views/products?e=${error}`);

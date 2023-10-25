@@ -67,5 +67,19 @@ export const emailDelete = async (email) => {
             <p>Saludos</p>
         </div>`,
     })
+}
+
+export const emailDeleteProduct = async (email,product) => {
+    await transport.sendMail({
+        from: "hlusqueda@gmail.com",
+        to: email,
+        subject: "Correo Informativo",
+        html: `
+        <div style='color:blue'>
+            <h1>Producto Eliminado</h1>
+            <p>Tu producto: ${product} ha sido eliminado.</p>
+            <p>Saludos</p>
+        </div>`,
+    })
 
 }

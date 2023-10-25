@@ -38,7 +38,7 @@ export default class UserController {
     } 
 
     getUserController = async (req, res) => {
-        const user = await this.userService.getUserService(req.params.email);
+        const user = await this.userService.getUserService(req.user.user.email);
         res.send({status: 'Usuario encontrado', user: user})
     }
 

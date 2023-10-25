@@ -13,7 +13,7 @@ form.addEventListener('submit', e => {
     }).then(result => {
         if(result.status===200){
             const success = `Se vacio el carrito.`;
-            window.location.replace(`/views/carts/${obj.cart}?success+=${success}`);
+            window.location.replace(`/views/carts/${obj.cart}?success=${success}`);
         }
     })
 })

@@ -62,6 +62,8 @@ export default class ProductManager {
         result.userId = result.user[0]._id;
         result.docs.forEach(element => {
             element['cart'] = result.user[0].cart;
+            element['admin'] = result.isAdmin;
+            element['premiun'] = result.isPremiun;
         });
         return result;
     }

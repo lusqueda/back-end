@@ -57,7 +57,7 @@
         </div>        
         {{/if}}
         <div class="table-responsive" >
-            <table class="table table-striped table-bordered bulk_action">
+            <table class="table table-striped table-bordered bulk_action .w-auto">
                 <thead>
                     <tr>
                         <th scope="col">Producto</th>
@@ -71,15 +71,30 @@
                 <tbody>
                 {{#each docs}}
                     <tr id={{this._id}}>
-                        <td>{{this.title}}</td>
-                        <td>{{this.description}}</td>
-                        <td>{{this.code}}</td>
-                        <td>{{this.category}}</td>
-                        <td>{{this.price}}</td>
-                        <td><form action="/carts/{{this.cart}}/product/{{this._id}}" method="post">
-                                <button class="btn btn-primary" type="submit">Add Cart</button>
-                            </form>
-                            
+                        <td class="span*">{{this.title}}</td>
+                        <td class="span*">{{this.description}}</td>
+                        <td class="span*">{{this.code}}</td>
+                        <td class="span*">{{this.category}}</td>
+                        <td class="span*">{{this.price}}</td>
+                        <td class="span*">
+                            <div class="d-flex row m-1">
+                                {{#if this.admin}}
+                                {{else}}
+                                   <form action="/carts/{{this.cart}}/product/{{this._id}}" class="m-1" method="post">
+                                        <button class="btn btn-primary" type="submit">Add Cart</button>
+                                    </form>       
+                                {{/if}}
+                                {{#if this.admin}}
+                                    <form action="/products/delete/{{this._id}}" class="m-1" method="get">
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                {{/if}}    
+                                {{#if this.premiun}}
+                                    <form action="/products/delete/{{this._id}}" class="m-1" method="get">
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                {{/if}}
+                            </div>
                         </td>     
                     </tr>
                 {{/each}}

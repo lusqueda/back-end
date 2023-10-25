@@ -42,10 +42,10 @@ export default class TicketManager {
             for (let indexs = 0; indexs < element.products.length; indexs++) {
                 const elements = element.products[indexs]
                 const item = await productsModel.findOne({_id: elements.product})
-                elements.title = item.title
+                item != null ? elements.title = item.title : elements.title = 'Producto Eliminado'
             }
         }
-
+        
         return result;
     }
 

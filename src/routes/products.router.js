@@ -62,14 +62,15 @@ router.put("/:pid",
         res.send({ status: 'Se modifico el producto' });
 })
 
-router.delete("/:pid", 
+router.get("/delete/:pid", 
     passport.authenticate('jwt',{session: false}),
     verifyProductId,
     usersMiddlewareAuth,
     async (req,res)=>{
         const id = req.params.pid;
-        await productController.deleteProductController(id)
-        res.send({ status: 'Se elimino el producto' });
+        await productController.deleteProductController(id);
+        const error = `Se elimino el producto.`;
+        res.redirect(`/views/products?e=${error}`);
     }
 )
 
